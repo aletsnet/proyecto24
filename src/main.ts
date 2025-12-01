@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 // Configuración de Axios para futuras peticiones al backend
-// @ts-ignore - api será usado cuando se implemente el backend real
+// @ts-expect-error - Variable 'api' será utilizada cuando se implemente la integración con el backend real (ver línea 98)
 const api = axios.create({
   baseURL: 'http://localhost:3000/api', // Cambiar según el backend
   timeout: 5000,
@@ -130,12 +130,24 @@ function showMessage(message: string, type: 'success' | 'danger' | 'info' | 'war
 // Función para cargar la aplicación principal
 function loadMainApplication() {
   if (loginMessage) {
+    const userDataStr = localStorage.getItem('user_data');
+    let userName = 'Usuario';
+    
+    if (userDataStr) {
+      try {
+        const userData = JSON.parse(userDataStr);
+        userName = userData.name || userData.username || 'Usuario';
+      } catch (e) {
+        console.error('Error parsing user data:', e);
+      }
+    }
+    
     loginMessage.innerHTML = `
       <div class="alert alert-success" role="alert">
         <h4 class="alert-heading">¡Bienvenido!</h4>
         <p>La aplicación principal se cargará aquí...</p>
         <hr>
-        <p class="mb-0">Usuario: ${localStorage.getItem('user_data')}</p>
+        <p class="mb-0">Usuario: ${userName}</p>
       </div>
     `;
   }
