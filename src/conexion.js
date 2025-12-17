@@ -1,9 +1,11 @@
-let mysql = require('mysql2');
-let conexion = mysql.createConnection({
+import mysql from 'mysql2';
+//let mysql = require('mysql2');
+const conexion = mysql.createConnection({
     host: 'localhost',
     database: 'proyecto24',
     user: 'root',
-    password: ''
+    //me pidio crear una password obligatoriamente
+    password: 'password'
 });
 
 conexion.connect(function (err) {
@@ -15,3 +17,4 @@ conexion.connect(function (err) {
     }
 
 });
+conexion.end();
