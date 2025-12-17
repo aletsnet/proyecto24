@@ -13,10 +13,25 @@
     "@tauri-apps/api": "^2",
     "@tauri-apps/plugin-opener": "^2",
     "axios": "^1.13.2",
-    "bootstrap": "^5.3.8"
+    "bootstrap": "^5.3.8",
+    "mysql": "^2.18.1",
+    "mysql2": "^3.16.0"
   },
   "devDependencies": {
     "@tauri-apps/cli": "^2",
     "vite": "^6.0.3"
-  }
+  },
+  "description": "Sistema de punto de venta elaborado por el grupo 24 y 24A del horario Mixto de Centro Universitario Hidalguense, del Nov25 - Dic25",
+  "main": "index.html",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/aletsnet/proyecto24.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/aletsnet/proyecto24/issues"
+  },
+  "homepage": "https://github.com/aletsnet/proyecto24#readme"
 }
