@@ -22,3 +22,6 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+/.vs/ProjectSettings.json
+/.vs/proyecto24.slnx/FileContentIndex
+/.vs/slnx.sqlite
