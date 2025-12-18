@@ -19,6 +19,9 @@ function conectarBD() {
         }
 
     });
-    conexion.end();
+    //conexion.end();
 
+}
+function desconectarBD() {
+    conexion.end();
 }

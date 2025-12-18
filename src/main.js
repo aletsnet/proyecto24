@@ -1,5 +1,5 @@
 import axios from 'axios';
-import conectarBD from './conexion.js';
+import './conexion.js';
 // Configuración de Axios para futuras peticiones al backend
 const api = axios.create({
   baseURL: 'http://localhost:3000/api',
@@ -142,3 +142,4 @@ window.addEventListener("DOMContentLoaded", () => {
 
 //Conexion a la base de datos
 conectarBD();
+desconectarBD();
