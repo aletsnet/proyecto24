@@ -140,6 +140,6 @@ window.addEventListener("DOMContentLoaded", () => {
   loginForm?.addEventListener("submit", handleLogin);
 });
 
-//Conexion a la base de datos
+//Conexion y desconexion a la base de datos
 conectarBD();
 desconectarBD();
