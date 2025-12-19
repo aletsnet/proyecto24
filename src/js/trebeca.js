@@ -911,3 +911,5 @@ const trebeca = (config, data) => {
         paste
     };
 }
+
+export default trebeca;

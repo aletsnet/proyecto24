@@ -1,7 +1,9 @@
 import axios from 'axios';
+import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 import Swal from 'sweetalert2';
 import trebeca from './js/trebeca.js';
-import view from './js/views.js';
+import renderView from './js/views.js';
+import '@fortawesome/fontawesome-free/css/all.css'
 
 // Configuración de Axios para futuras peticiones al backend
 const api = axios.create({
@@ -12,4 +14,5 @@ const api = axios.create({
   }
 });
 
+console.log(renderView);
 

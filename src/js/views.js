@@ -1,5 +1,5 @@
 //funcion que renderiza las vistas
-export const renderView = async (dom, page) => {
+const renderView = async (dom, page) => {
     const app = document.getElementById(dom);
     app.innerHTML = ''; // Limpiar el contenido previo
     let viewContent = '';
@@ -16,3 +16,5 @@ export const renderView = async (dom, page) => {
             
     app.innerHTML = viewContent;
 }
+
+export default renderView;

@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Proyecto24</title>
+</head>
+<body>
+    <!--Menu principal-->
+    <nav>
+        <ul>
+            <li><a href="/home">Inicio</a></li>
+            <li><a href="/usuarios">Usuarios</a></li>
+            <li><a href="/about">Acerca de</a></li>
+        </ul>
+    </nav>
+    <!--Contenido específico de cada página-->
+    <section>
+        {% block content %}
+        {% endblock %}
+    </section>
+    <!--Pie de página-->
+    <footer>
+        <p>&copy; 2024 Proyecto24. Todos los derechos reservados.</p>
+    </footer>
+</body>
+</html>
