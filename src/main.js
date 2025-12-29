@@ -1,5 +1,6 @@
 import axios from 'axios';
-import './conexion.js';
+import { initInventario } from "./inventario.js";
+
 // Configuración de Axios para futuras peticiones al backend
 const api = axios.create({
   baseURL: 'http://localhost:3000/api',
@@ -140,6 +141,24 @@ window.addEventListener("DOMContentLoaded", () => {
   loginForm?.addEventListener("submit", handleLogin);
 });
 
-//Conexion y desconexion a la base de datos
-conectarBD();
-desconectarBD();
+
+const loginView = document.getElementById("login-view");
+const appView = document.getElementById("app-view");
+const btnInventario = document.getElementById("btn-inventario");
+async function cargarInventario() {
+  const res = await fetch("./inventario.html");
+  const html = await res.text();
+
+  appView.innerHTML = html;
+
+  loginView.classList.add("d-none");
+  appView.classList.remove("d-none");
+  
+  await initInventario();
+  
+}
+
+btnInventario.addEventListener("click", () => {
+  cargarInventario();
+});
+
