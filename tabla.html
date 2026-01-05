@@ -1,0 +1,144 @@
+
+    <!-- Bootstrap CSS -->
+    
+    <!-- SweetAlert2 CSS <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css" rel="stylesheet">-->
+    
+    <!-- Custom CSS -->
+
+
+    <!-- Navigation -->
+    
+
+    <!-- Hero Section -->
+    <section id="inicio" class="hero-section bg-light py-5">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-12">
+                    <h3>
+                        Productos
+                    </h3>
+                    <table id="miTabla" class="table table-striped trebeca" >
+                        <thead>
+                            <tr>
+                                <th>Nombre</th>
+                                <th>Precio</th>
+                                <th>Ciudad</th>
+                                <th>
+                                    <button type="button" class="btn btn-success btn-sm me-1 btn-add-row">
+                                        <i class="fas fa-plus"></i>
+                                    </button>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Ana</td>
+                                <td>28</td>
+                                <td>Madrid</td>
+                                <td>
+                                    <button type="button" class="btn btn-warning btn-sm me-1 edit-btn">
+                                        <i class="fas fa-edit"></i>
+                                    </button>
+                                    <button type="button" class="btn btn-danger btn-sm delete-btn">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Juan</td>
+                                <td>34</td>
+                                <td>Barcelona</td>
+                                <td>
+                                    <button type="button" class="btn btn-warning btn-sm me-1 edit-btn">
+                                        <i class="fas fa-edit"></i>
+                                    </button>
+                                    <button type="button" class="btn btn-danger btn-sm delete-btn">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Laura</td>
+                                <td>25</td>
+                                <td>Valencia</td>
+                                <td>
+                                    <button type="button" class="btn btn-warning btn-sm me-1 edit-btn">
+                                        <i class="fas fa-edit"></i>
+                                    </button>
+                                    <button type="button" class="btn btn-danger btn-sm delete-btn">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <td colspan="3" class="text-end fw-bold">Total de registros:</td>
+                                <td class="fw-bold" id="totalCount">3</td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                    
+                    <!-- Modal para añadir/editar registro -->
+                    <div class="modal fade" id="personModal" tabindex="-1" aria-labelledby="personModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="personModalLabel">Añadir Persona</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <form id="personForm">
+                                        <div class="mb-3">
+                                            <label for="personName" class="form-label">Nombre</label>
+                                            <input type="text" class="form-control" id="personName" required>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="personAge" class="form-label">Edad</label>
+                                            <input type="number" class="form-control" id="personAge" min="1" max="120" required>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="personCity" class="form-label">Ciudad</label>
+                                            <input type="text" class="form-control" id="personCity" required>
+                                        </div>
+                                    </form>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                                    <button type="button" class="btn btn-primary" id="savePersonBtn">Guardar</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-dark text-white py-4">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <p>&copy; 2025 tRebeca - Tabla Dinamica. Todos los derechos reservados.</p>
+                </div>
+                <div class="col-md-6 text-end">
+                    <p>Desarrollado con ❤️ usando Bootstrap</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS and Popper.js -->
+    
+    <!-- SweetAlert2 JS -->
+    
+    <!-- Font Awesome -->
+    
+    <!-- Custom JavaScript -->
+     <!--DEBO DE VER COMO METER ESTOS SCRIPTS EN EL PROGRAMA PRINCIPAL-->
+    
+    <!--Debo de encontrar la manera de ejecutar esto-->
+    
+
