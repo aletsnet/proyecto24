@@ -3,7 +3,12 @@ import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 import Swal from 'sweetalert2';
 import trebeca from './js/trebeca.js';
 import renderView from './js/views.js';
+import sqlite from './js/sqlite.js';
 import '@fortawesome/fontawesome-free/css/all.css'
+
+//controlles
+import cdatabase from './js/controlls/database.js';
+//import home from './js/controlls/home.js';
 
 // Configuración de Axios para futuras peticiones al backend
 const api = axios.create({
@@ -14,5 +19,10 @@ const api = axios.create({
   }
 });
 
-console.log(renderView);
 
+window.renderView = renderView;
+window.sqlite = sqlite;
+window.cdatabase = cdatabase;
+
+// Cargar la vista inicial
+window.renderView('app', 'view/home');
