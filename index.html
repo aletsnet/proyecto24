@@ -24,24 +24,47 @@
 						<span class="visually-hidden">(current)</span>
 					</a>
 				</li>
-				<li class="nav-item">
-					<a class="nav-link" href="javascript:void(0)" onclick="window.renderView('app','page/menuventa')">Ventas</a>
+				<li class="nav-item dropdown">
+					<a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
+						<i class="fas fa-shopping-cart"></i>
+						Ventas
+					</a>
 					<div class="dropdown-menu">
-					<a class="dropdown-item" href="javascript:void(0)" onclick="window.renderView('app','ventas/terminal')">
-						<i class=""></i>
-						Terminal de Ventas
-					</a>
-					<a class="dropdown-item" href="javascript:void(0)" onclick="window.renderView('app','ventas/ventas')">
-						<i class="fas fa-cogs"></i>
-						Historial de Ventas
-					</a>
+						<a class="dropdown-item" href="javascript:void(0)" onclick="window.renderView('app','view/ventas/terminal', cterminal.loadView)">
+							<i class="fa fa-shopping-basket"></i>
+							Terminal de Ventas
+						</a>
+						<a class="dropdown-item" href="javascript:void(0)" onclick="window.renderView('app','view/ventas/search')">
+							<i class="fas fa-cogs"></i>
+							Historial de Ventas
+						</a>
 					</div>
 				</li>
-				<li class="nav-item">
-					<a class="nav-link" href="#">Inventario</a>
+				<li class="nav-item dropdown">
+					<a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
+						Inventario
+					</a>
+					<div class="dropdown-menu">
+						<a class="dropdown-item" href="javascript:void(0)" onclick="window.renderView('app','view/inventario/search')">
+							<i class=""></i>
+							Inventarios
+						</a>
+					</div>
 				</li>
-				<li class="nav-item">
-					<a class="nav-link" href="#">Cortes</a>
+				<li class="nav-item dropdown">
+					<a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
+						Cortes
+					</a>
+					<div class="dropdown-menu">
+						<a class="dropdown-item" href="javascript:void(0)" onclick="window.renderView('app','view/corte/corte')">
+							<i class=""></i>
+							Realizar Corte
+						</a>
+						<a class="dropdown-item" href="javascript:void(0)" onclick="window.renderView('app','view/corte/historial')">
+							<i class="fas fa-cogs"></i>
+							Historial de Cortes
+						</a>
+					</div>
 				</li>
 				<li class="nav-item dropdown">
 					<a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
@@ -49,30 +72,29 @@
 						Sistema
 					</a>
 					<div class="dropdown-menu">
-					<a class="dropdown-item" href="#">
-						<i class="fas fa-ticket-alt"></i>
-						Ticket
-					</a>
-					<a class="dropdown-item" href="#">
-						<i class="fas fa-cogs"></i>
-						Sistema
-					</a>
-					<a class="dropdown-item" href="#">
-						<i class="fas fa-user"></i>
-						Usuario
-					</a>
-					<a class="dropdown-item" href="javascript:void(0)" onclick="window.renderView('app','page/sandbox')">sandbox</a>
-					<a class="dropdown-item" href="javascript:void(0)" onclick="window.renderView('app','view/system/database')">
-						<i class="fas fa-database"></i>
-						Database
-					</a>
+						<a class="dropdown-item" href="javascript:void(0)" onclick="window.renderView('app','view/system/ticket')">
+							<i class="fas fa-ticket-alt"></i>
+							Ticket
+						</a>
+						<a class="dropdown-item" href="javascript:void(0)" onclick="window.renderView('app','view/system/config')">
+							<i class="fas fa-cogs"></i>
+							Sistema
+						</a>
+						<a class="dropdown-item"  href="javascript:void(0)" onclick="window.renderView('app','view/system/users')">
+							<i class="fas fa-user"></i>
+							Usuario
+						</a>
+						<a class="dropdown-item" href="javascript:void(0)" onclick="window.renderView('app','view/system/database', () => { cdatabase.loadView(); })">
+							<i class="fas fa-database"></i>
+							Modo mantenimiento
+						</a>
 					</div>
 				</li>
 				</ul>
 			</div>
 			</div>
 		</nav>
-		<div class="container" id="app">
+		<div class="container m-3" id="app">
 			No cargo en view
 		</div> 
 		
