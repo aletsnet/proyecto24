@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Proyecto HTML + Bootstrap + JS</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- SweetAlert2 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <div class="container">
+            <a class="navbar-brand" href="#">tRebeca - Tabla Dinamica</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="articulos.html">Articulos</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="tablas.html">MultiTablas</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="inicio" class="hero-section bg-light py-5">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-12">
+                    <h3>
+                        Mi tabla dinamica
+                    </h3>
+                    <table id="trebeca" class="table table-striped trebeca" >
+                        
+                    </table>
+                    
+                    <!-- Modal para añadir/editar registro -->
+                    <div class="modal fade" id="personModal" tabindex="-1" aria-labelledby="personModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="personModalLabel">Añadir Persona</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <form id="personForm">
+                                        <div class="mb-3">
+                                            <label for="personName" class="form-label">Nombre</label>
+                                            <input type="text" class="form-control" id="personName" required>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="personAge" class="form-label">Edad</label>
+                                            <input type="number" class="form-control" id="personAge" min="1" max="120" required>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="personCity" class="form-label">Ciudad</label>
+                                            <input type="text" class="form-control" id="personCity" required>
+                                        </div>
+                                    </form>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                                    <button type="button" class="btn btn-primary" id="savePersonBtn">Guardar</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-dark text-white py-4">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <p>&copy; 2025 tRebeca - Tabla Dinamica. Todos los derechos reservados.</p>
+                </div>
+                <div class="col-md-6 text-end">
+                    <p>Desarrollado con ❤️ usando Bootstrap</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS and Popper.js -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- SweetAlert2 JS -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Custom JavaScript -->
+    <script src="js/trebeca.js"></script>
+    <script>
+        // trebeca.js
+        const data = [
+            {id: 1, code: "7500810034872", nombre: 'Pan Blanco', precio: 45.0, cantidad: 5, unidad:"pieza", total:["cantidad", "precio"], categoria: 'Panaderia', foto: 'img/bread.png'},
+            
+        ];
+
+        const config_default = {
+            search: {
+                value: '',
+                fields: ['code','nombre', 'categoria'],
+                buttons: [
+                    { label: '<i class="fas fa-search"></i> Buscar', class: 'btn btn-primary btn-sm me-1', function: (event) => { console.log('Buscar'); } },
+                    { label: '<i class="fas fa-eraser"></i> Limpiar', class: 'btn btn-secondary btn-sm me-1', function: (event) => { console.log('Limpiar búsqueda'); } },
+                    { label: '<i class="fas fa-file-xls"></i> Exportar', class: 'btn btn-secondary btn-sm me-1', function: (event) => { console.log('Exportar'); } }
+                ]
+            },
+            table: {
+                cols: [
+                    {label: 'Code', field: 'code', type: 'text', function: (event) => { search_code(event); }, typefunc: 'keyup'},
+                    {label: 'Producto', field: 'nombre', type : 'text', valuedefault: 'Nuevo Producto'},
+                    {label: 'Precio', field: 'precio', type: 'money'},
+                    {label: 'Unidad', field: 'unidad', type: 'text'},
+                    {label: 'Cantidad', field: 'cantidad', type: 'number', edit: false},
+                    {label: 'Total', field: 'total', type: 'money', operator: 'multiply', add: false, edit: false, reference: ["cantidad", "precio"]},
+                    {label: 'Categoría', field: 'categoria', type: 'select', 
+                        options:["Abarrotes","Panaderia", "Lacteos", "Huevos", "Embutidos", "Verduras", "Frutas", "Carnes", "Cereales", "Aceites", "Dulces",
+                         "Condimentos"], valuedefault: 'Abarrotes'},
+                    {label: 'Foto', field: 'foto', type: 'image', valuedefault: 'img/ghost.png', function: (event) => { upfile(event); }, typefunc: 'change'},
+                    {label: '*', field: 'actions', type: 'button', buttons: ["add", "edit", "delete", "save", "btn_extra"]}
+                ],
+                footer: {
+                    label: 'Total de registros:',
+                    field: 'count',
+                    type: 'text'
+                }
+            },
+            buttons: [
+                { name: "add", label: '<i class="fas fa-plus"></i>', class: 'btn btn-success btn-sm me-1', modo: "new"  },
+                { name: "edit", label: '<i class="fas fa-edit"></i>', class: 'btn btn-warning btn-sm me-1', modo: "row" },
+                { name: "delete", label: '<i class="fas fa-trash"></i>', class: 'btn btn-danger btn-sm me-1', modo: "row" },
+                { name: "save", label: '<i class="fas fa-save"></i>', class: 'btn btn-success btn-sm me-1', modo: "row" },
+                { name: "btn_extra", label: '<i class="fas fa-info-circle"></i>', class: 'btn btn-info btn-sm m-1', 
+                modo: "row_extra", function: (event) => { other_function(event); } },
+            ],
+            tableClass: 'trebeca',
+            // Usando referencias a funciones (más seguro que eval)
+            add: (event) => {btn_add(event)},
+            edit: (event) => {btn_edit(event)},
+            delete: (event) => {btn_delete(event)},   
+            save: (event) => {btn_save(event)},
+        };
+
+        const btn_add = () => {
+            console.log("Agregar nuevo registro");
+        }
+        
+        const btn_edit = (event) => {
+            //console.log(event);
+            const id = event.target.id;
+            console.log("Editar registro id:", id);
+            
+        }
+
+        const btn_delete = (event) => {
+            const id = event.target.id;
+            console.log("Eliminar registro id:", id);
+        }
+
+        const btn_save = (event) => {
+            console.log(event);
+            /*const id = event.children[0].id;
+            console.log("Guardar registro id:", id);*/
+        }
+
+        const other_function = (event) => {
+            const td_bts = event.target.closest('td');
+            let row = data.find(item => item.id == td_bts.dataset.id);
+            Swal.fire({
+                title: 'Otra función',
+                text: 'Esta es otra función de ejemplo.',
+                icon: 'info',
+                confirmButtonText: 'Cerrar'
+            });
+        }
+
+        const upfile = (event) => {
+            const input = event.target || null;
+            const tr = event.target.closest('tr') || null;
+            const a = event.target.closest('td')
+            //console.log(a, tr);
+            
+            const img = tr.querySelector('img') || null;
+            const file = input.files[0] || null;
+            if(file){
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    const img_src = e.target.result || '';
+                    console.log(img_src);
+                    img.src = img_src;
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+
+        const search_code = (event) => {
+            const t = event.key || '';
+            switch(t){
+                case 'Enter':
+                    const input = event.target || null;
+                    const tr = event.target.closest('tr') || null;
+                    const inputs = tr.querySelectorAll('input') || [];
+                    const row = data.find( item => item.code === input.value );
+
+                    if(row){
+                        for(element of inputs){
+                            const field = element.dataset.field || '';
+                            console.log(field, element);
+                            
+                            if(field !== '' && typeof row[field] !== "undefined" && typeof element.value !== "undefined"){
+                                try{
+                                    element.value = row[field];
+                                }catch(e){
+                                    console.log(e);
+                                }
+                            }
+                        }
+                    }else{
+                        for(element of inputs){
+                            const field = element.dataset.field || '';
+                            if(field !== "code"){
+                                element.value = "";
+                            }
+                        }
+                    }
+                    
+                    break;
+            }
+        }
+
+        trebeca(config_default, data);
+
+    </script>
+</body>
+</html>
