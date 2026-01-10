@@ -47,6 +47,19 @@
         ]
       },
       {
+        "name": "users",
+        "columns": [
+          {"name": "id", "type": "INTEGER", "primaryKey": true, "autoIncrement": true, "nullable": false},
+          {"name": "name", "type": "TEXT", "nullable": false},
+          {"name": "email", "type": "TEXT", "nullable": false, "unique": true},
+          {"name": "email_verified_at", "type": "DATETIME", "nullable": true},
+          {"name": "password", "type": "TEXT", "nullable": false},
+          {"name": "remember_token", "type": "TEXT", "nullable": true},
+          {"name": "created_at", "type": "DATETIME", "nullable": true},
+          {"name": "updated_at", "type": "DATETIME", "nullable": true}
+        ]
+      },
+      {
         "name": "clientes",
         "columns": [
           {"name": "id", "type": "INTEGER", "primaryKey": true, "autoIncrement": true, "nullable": false},
@@ -68,6 +81,77 @@
         ],
         "foreignKeys": [
           {"column": "status", "references": {"table": "catalogos_detalles", "column": "id"}, "onDelete": "CASCADE"}
+        ]
+      },
+      {
+        "name": "categorias",
+        "columns": [
+          {"name": "id", "type": "INTEGER", "primaryKey": true, "autoIncrement": true, "nullable": false},
+          {"name": "categoria", "type": "TEXT", "nullable": false},
+          {"name": "padre", "type": "TEXT", "nullable": true},
+          {"name": "descripcion", "type": "TEXT", "nullable": true},
+          {"name": "status", "type": "INTEGER", "nullable": false},
+          {"name": "user", "type": "INTEGER", "nullable": false},
+          {"name": "created_at", "type": "DATETIME", "nullable": true},
+          {"name": "updated_at", "type": "DATETIME", "nullable": true},
+          {"name": "deleted_at", "type": "DATETIME", "nullable": true}
+        ],
+        "foreignKeys": [
+          {"column": "status", "references": {"table": "catalogos_detalles", "column": "id"}, "onDelete": "CASCADE"},
+          {"column": "user", "references": {"table": "users", "column": "id"}, "onDelete": "CASCADE"}
+        ]
+      },
+      {
+        "name": "productos",
+        "columns": [
+          {"name": "id", "type": "INTEGER", "primaryKey": true, "autoIncrement": true, "nullable": false},
+          {"name": "nombre", "type": "TEXT", "nullable": false},
+          {"name": "descripcion", "type": "TEXT", "nullable": true},
+          {"name": "codigo_sku", "type": "TEXT", "nullable": true},
+          {"name": "codigo_barras", "type": "TEXT", "nullable": true},
+          {"name": "precio_unidad", "type": "DECIMAL(10,2)", "nullable": true},
+          {"name": "precio_mayoreo", "type": "DECIMAL(10,2)", "nullable": true},
+          {"name": "unidad_mayoreo", "type": "DECIMAL(10,2)", "nullable": true},
+          {"name": "categoria", "type": "TEXT", "nullable": true},
+          {"name": "status", "type": "INTEGER", "nullable": false},
+          {"name": "user", "type": "INTEGER", "nullable": false},
+          {"name": "created_at", "type": "DATETIME", "nullable": true},
+          {"name": "updated_at", "type": "DATETIME", "nullable": true},
+          {"name": "deleted_at", "type": "DATETIME", "nullable": true}
+        ],
+        "foreignKeys": [
+          {"column": "status", "references": {"table": "catalogos_detalles", "column": "id"}, "onDelete": "CASCADE"},
+          {"column": "user", "references": {"table": "users", "column": "id"}, "onDelete": "CASCADE"}
+        ]
+      },
+      {
+        "name": "cortes",
+        "columns": [
+          {"name": "id", "type": "INTEGER", "primaryKey": true, "autoIncrement": true, "nullable": false},
+          {"name": "fechainicio", "type": "DATETIME", "nullable": false},
+          {"name": "fechafinal", "type": "DATETIME", "nullable": false},
+          {"name": "caja", "type": "DOUBLE", "nullable": true},
+          {"name": "inicio", "type": "DOUBLE", "nullable": false},
+          {"name": "venta", "type": "DOUBLE", "nullable": false},
+          {"name": "diferencia", "type": "DOUBLE", "nullable": true},
+          {"name": "adepositar", "type": "DOUBLE", "nullable": true},
+          {"name": "mermas", "type": "DOUBLE", "nullable": false},
+          {"name": "gasto", "type": "DOUBLE", "nullable": false},
+          {"name": "efectivo", "type": "DOUBLE", "nullable": false},
+          {"name": "trasferencia", "type": "DOUBLE", "nullable": false},
+          {"name": "tarjeta", "type": "DOUBLE", "nullable": false},
+          {"name": "otros", "type": "DOUBLE", "nullable": false},
+          {"name": "sucursal", "type": "INTEGER", "nullable": false},
+          {"name": "status", "type": "INTEGER", "nullable": false},
+          {"name": "user", "type": "INTEGER", "nullable": false},
+          {"name": "created_at", "type": "DATETIME", "nullable": true},
+          {"name": "updated_at", "type": "DATETIME", "nullable": true},
+          {"name": "deleted_at", "type": "DATETIME", "nullable": true}
+        ],
+        "foreignKeys": [
+          {"column": "sucursal", "references": {"table": "sucursales", "column": "id"}, "onDelete": "CASCADE"},
+          {"column": "status", "references": {"table": "catalogos_detalles", "column": "id"}, "onDelete": "CASCADE"},
+          {"column": "user", "references": {"table": "users", "column": "id"}, "onDelete": "CASCADE"}
         ]
       },
       {
@@ -107,36 +191,6 @@
         "foreignKeys": [
           {"column": "corte", "references": {"table": "cortes", "column": "id"}, "onDelete": "CASCADE"},
           {"column": "sucursal", "references": {"table": "sucursales", "column": "id"}, "onDelete": "CASCADE"},
-          {"column": "user", "references": {"table": "users", "column": "id"}, "onDelete": "CASCADE"}
-        ]
-      },
-      {
-        "name": "cortes",
-        "columns": [
-          {"name": "id", "type": "INTEGER", "primaryKey": true, "autoIncrement": true, "nullable": false},
-          {"name": "fechainicio", "type": "DATETIME", "nullable": false},
-          {"name": "fechafinal", "type": "DATETIME", "nullable": false},
-          {"name": "caja", "type": "DOUBLE", "nullable": true},
-          {"name": "inicio", "type": "DOUBLE", "nullable": false},
-          {"name": "venta", "type": "DOUBLE", "nullable": false},
-          {"name": "diferencia", "type": "DOUBLE", "nullable": true},
-          {"name": "adepositar", "type": "DOUBLE", "nullable": true},
-          {"name": "mermas", "type": "DOUBLE", "nullable": false},
-          {"name": "gasto", "type": "DOUBLE", "nullable": false},
-          {"name": "efectivo", "type": "DOUBLE", "nullable": false},
-          {"name": "trasferencia", "type": "DOUBLE", "nullable": false},
-          {"name": "tarjeta", "type": "DOUBLE", "nullable": false},
-          {"name": "otros", "type": "DOUBLE", "nullable": false},
-          {"name": "sucursal", "type": "INTEGER", "nullable": false},
-          {"name": "status", "type": "INTEGER", "nullable": false},
-          {"name": "user", "type": "INTEGER", "nullable": false},
-          {"name": "created_at", "type": "DATETIME", "nullable": true},
-          {"name": "updated_at", "type": "DATETIME", "nullable": true},
-          {"name": "deleted_at", "type": "DATETIME", "nullable": true}
-        ],
-        "foreignKeys": [
-          {"column": "sucursal", "references": {"table": "sucursales", "column": "id"}, "onDelete": "CASCADE"},
-          {"column": "status", "references": {"table": "catalogos_detalles", "column": "id"}, "onDelete": "CASCADE"},
           {"column": "user", "references": {"table": "users", "column": "id"}, "onDelete": "CASCADE"}
         ]
       },
@@ -185,7 +239,7 @@
         "foreignKeys": [
           {"column": "sucursal", "references": {"table": "sucursales", "column": "id"}, "onDelete": "CASCADE"},
           {"column": "status", "references": {"table": "catalogos_detalles", "column": "id"}, "onDelete": "CASCADE"},
-          {"column": "producto", "references": {"table": "inventarios_productos", "column": "id"}, "onDelete": "CASCADE"},
+          {"column": "producto", "references": {"table": "productos", "column": "id"}, "onDelete": "CASCADE"},
           {"column": "user", "references": {"table": "users", "column": "id"}, "onDelete": "CASCADE"}
         ]
       },
@@ -241,31 +295,6 @@
         ]
       },
       {
-        "name": "inventarios_productos",
-        "columns": [
-          {"name": "id", "type": "INTEGER", "primaryKey": true, "autoIncrement": true, "nullable": false},
-          {"name": "nombre", "type": "TEXT", "nullable": false},
-          {"name": "descripcion", "type": "TEXT", "nullable": true},
-          {"name": "codigo_sku", "type": "TEXT", "nullable": true},
-          {"name": "codigo_barras", "type": "TEXT", "nullable": true},
-          {"name": "precio_unidad", "type": "DECIMAL(10,2)", "nullable": true},
-          {"name": "precio_mayoreo", "type": "DECIMAL(10,2)", "nullable": true},
-          {"name": "unidad_mayoreo", "type": "DECIMAL(10,2)", "nullable": true},
-          {"name": "categoria", "type": "TEXT", "nullable": true},
-          {"name": "subcategoria", "type": "TEXT", "nullable": true},
-          {"name": "familia", "type": "TEXT", "nullable": true},
-          {"name": "status", "type": "INTEGER", "nullable": false},
-          {"name": "user", "type": "INTEGER", "nullable": false},
-          {"name": "created_at", "type": "DATETIME", "nullable": true},
-          {"name": "updated_at", "type": "DATETIME", "nullable": true},
-          {"name": "deleted_at", "type": "DATETIME", "nullable": true}
-        ],
-        "foreignKeys": [
-          {"column": "status", "references": {"table": "catalogos_detalles", "column": "id"}, "onDelete": "CASCADE"},
-          {"column": "user", "references": {"table": "users", "column": "id"}, "onDelete": "CASCADE"}
-        ]
-      },
-      {
         "name": "sucursales",
         "columns": [
           {"name": "id", "type": "INTEGER", "primaryKey": true, "autoIncrement": true, "nullable": false},
@@ -279,19 +308,6 @@
         ],
         "foreignKeys": [
           {"column": "status", "references": {"table": "catalogos_detalles", "column": "id"}, "onDelete": "CASCADE"}
-        ]
-      },
-      {
-        "name": "users",
-        "columns": [
-          {"name": "id", "type": "INTEGER", "primaryKey": true, "autoIncrement": true, "nullable": false},
-          {"name": "name", "type": "TEXT", "nullable": false},
-          {"name": "email", "type": "TEXT", "nullable": false, "unique": true},
-          {"name": "email_verified_at", "type": "DATETIME", "nullable": true},
-          {"name": "password", "type": "TEXT", "nullable": false},
-          {"name": "remember_token", "type": "TEXT", "nullable": true},
-          {"name": "created_at", "type": "DATETIME", "nullable": true},
-          {"name": "updated_at", "type": "DATETIME", "nullable": true}
         ]
       },
       {
