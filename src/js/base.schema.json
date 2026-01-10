@@ -91,6 +91,7 @@
           {"name": "padre", "type": "TEXT", "nullable": true},
           {"name": "descripcion", "type": "TEXT", "nullable": true},
           {"name": "status", "type": "INTEGER", "nullable": false},
+          {"name": "user", "type": "INTEGER", "nullable": false},
           {"name": "created_at", "type": "DATETIME", "nullable": true},
           {"name": "updated_at", "type": "DATETIME", "nullable": true},
           {"name": "deleted_at", "type": "DATETIME", "nullable": true}
