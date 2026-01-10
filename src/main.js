@@ -8,6 +8,7 @@ import '@fortawesome/fontawesome-free/css/all.css'
 
 //controlles
 import cdatabase from './js/controlls/database.js';
+
 //import home from './js/controlls/home.js';
 
 // Configuración de Axios para futuras peticiones al backend
@@ -19,7 +20,8 @@ const api = axios.create({
   }
 });
 
-
+window.Swal = Swal;
+window.trebeca = trebeca;
 window.renderView = renderView;
 window.sqlite = sqlite;
 window.cdatabase = cdatabase;

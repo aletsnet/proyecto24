@@ -1,0 +1,23 @@
+{
+    "table": "catalogo",
+    "data": [
+        {
+            "code": "P001",
+            "nombre": "Producto 1",
+            "descripcion": "Descripcion del producto 1",
+            "categoria": "Categoria A"
+        },
+        {
+            "code": "P002",
+            "nombre": "Producto 2",
+            "descripcion": "Descripcion del producto 2",
+            "categoria": "Categoria B"
+        },
+        {
+            "code": "P003",
+            "nombre": "Producto 3",
+            "descripcion": "Descripcion del producto 3",
+            "categoria": "Categoria A"
+        }
+    ]
+}

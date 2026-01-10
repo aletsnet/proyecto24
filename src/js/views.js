@@ -1,8 +1,7 @@
 //funcion que renderiza las vistas
-const renderView = async (dom, page) => {
+const renderView = async (dom, page, funcion) => {
     const app = document.getElementById(dom);
     app.innerHTML = '<b>Loading...</b>'; // Limpiar el contenido previo
-    let viewContent = '';
     
     await fetch('/src/' + page + '.html')
         .then(
@@ -13,11 +12,11 @@ const renderView = async (dom, page) => {
                 return data;
             })
         .then(html => {
-            console.log('/src/' + page + '.html');
-            
-            //console.log(html);
-            
+            console.log('/src/' + page + '.html');            
             app.innerHTML = html;
+            if(typeof funcion === 'function'){
+                funcion();
+            }
         })      
         .catch(error => {
             console.error('Error al cargar la vista:', error);
