@@ -1,3 +1,22 @@
-<h3>Administrador de la base de datos</h3>
-<p></p>
-<button class="btn btn-primary" onclick="window.cdatabase.checkDB()">Validar la base de datos</button>
+<h3>Modo mantenimiento</h3>
+<p>Herramientas para el mantenimiento de la base de datos</p>
+<div class="mb-3">
+<button class="btn btn-primary" onclick="cdatabase.checkDB()">Validar la base de datos</button>
+<button class="btn btn-danger" onclick="cdatabase.exportDB()">Respaldar base de datos</button>
+</div>
+<div class="mb-3 row">
+    <div class="col-9">
+        <input type="text" id="lquery" name="lquery" class="form-control" placeholder="query usando sql" />
+    </div>
+    <div class="col-3">
+        <button class="btn btn-success w-100" type="button" onclick="cdatabase.queryLoad()">
+            <i class="fas fa-play"></i>
+            Run Query</button>
+        </button>
+    </div>
+</div>
+<div class="mb-3 row">
+    <div class="col-12">
+        <table id="tquery"></table>
+    </div>
+</div>

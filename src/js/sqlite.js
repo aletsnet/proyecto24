@@ -9,6 +9,14 @@ export let namedb = "";
 // Conectar a la base de datos
 export const connectDB = async () => {
     if (!db) {
+        if(namedb === "") {
+            //busca el nombre en el storage
+            namedb = localStorage.getItem("namedb");
+            if(namedb === null || namedb === ""){
+                namedb = Math.random().toString(36).substring(2, 10);
+                localStorage.setItem("namedb", namedb);
+            }
+        }
         db = await Database.load("sqlite:" + namedb + ".db");
     }
     return db;
