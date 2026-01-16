@@ -12,7 +12,7 @@ const config = {
             table: {
                 cols: [
                     {label: 'Code', field: 'code', type: 'text', function: (event) => { search_code(event); }, typefunc: 'keyup'},
-                    {label: 'Producto', field: 'nombre', type : 'text', valuedefault: 'Nuevo Producto'},
+                    {label: 'Producto', field: 'nombre', type : 'text', valuedefault: ''},
                     {label: 'Precio', field: 'precio', type: 'money'},
                     {label: 'Unidad', field: 'unidad', type: 'text'},
                     {label: 'Cantidad', field: 'cantidad', type: 'number', edit: false},
@@ -43,6 +43,26 @@ const config = {
             delete: (event) => {btn_delete(event)},   
             save: (event) => {btn_save(event)},
         };
+
+        const btn_add = () => {
+            console.log("Agregar nuevo registro");
+        }
+        const btn_edit = (event) => {
+            //console.log(event);
+            const id = event.target.id;
+            console.log("Editar registro id:", id);
+        }
+
+        const btn_delete = (event) => {
+            const id = event.target.id;
+            console.log("Eliminar registro id:", id);
+        }
+        const btn_save = (event) => {
+            const id = event.target.id;
+            console.log("Guardar registro id:", id);
+        }
+
+    
 export const loadView = async () => {
     data = await window.sqlite.query("SELECT * FROM inventarios");
     window.trebeca(config, data);
