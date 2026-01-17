@@ -1,23 +1,49 @@
-{
-    "table": "catalogo",
-    "data": [
-        {
-            "code": "P001",
-            "nombre": "Producto 1",
-            "descripcion": "Descripcion del producto 1",
-            "categoria": "Categoria A"
-        },
-        {
-            "code": "P002",
-            "nombre": "Producto 2",
-            "descripcion": "Descripcion del producto 2",
-            "categoria": "Categoria B"
-        },
-        {
-            "code": "P003",
-            "nombre": "Producto 3",
-            "descripcion": "Descripcion del producto 3",
-            "categoria": "Categoria A"
-        }
-    ]
-}
+[
+    {
+        "table": "roles",
+        "data": [
+            {
+                "rol": "Administrador",
+                "descripcion": "Es el usuario principal del sistema",
+                "status": 1
+            },
+            {
+                "rol": "Cajero",
+                "descripcion": "Usuario encargado de las ventas, invenarios y clientes",
+                "status": 1
+            },
+            {
+                "rol": "Inventarios",
+                "descripcion": "Usuario encargado de gestionar los inventarios",
+                "status": 1
+            }
+        ]
+    }
+    ,
+    {
+        "table": "categorias",
+        "data": [
+            {
+                "categoria": "Electronica",
+                "padre": null,
+                "descripcion": "Dispositivos electronicos y accesorios",
+                "status": 1,
+                "user": 1
+            },
+            {
+                "categoria": "Ropa",
+                "padre": null,
+                "descripcion": "Prendas de vestir para todas las edades",
+                "status": 1,
+                "user": 1
+            },
+            {
+                "categoria": "Hogar",
+                "padre": null,
+                "descripcion": "Articulos para el hogar y decoracion",
+                "status": 1,
+                "user": 1
+            }
+        ]
+    }
+]

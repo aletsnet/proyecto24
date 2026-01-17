@@ -8,6 +8,9 @@ import '@fortawesome/fontawesome-free/css/all.css'
 
 //controlles
 import cdatabase from './js/controlls/database.js';
+//import cload from './js/controlls/load.js';
+
+import cinventarios from './js/controlls/inventarios.js';
 
 import cticket from './js/controlls/ticket.js'
 //import home from './js/controlls/home.js';
@@ -27,6 +30,13 @@ window.renderView = renderView;
 window.sqlite = sqlite;
 window.cdatabase = cdatabase;
 window.cticket = cticket;
+window.cinventarios = cinventarios;
+
+window.cterminal = cterminal;
+window.api = api;
+//Check database connection
+//cdatabase.checkDB();
+
 
 // Cargar la vista inicial
 window.renderView('app', 'view/home');

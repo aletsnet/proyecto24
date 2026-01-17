@@ -31,7 +31,7 @@
 						Ventas
 					</a>
 					<div class="dropdown-menu">
-						<a class="dropdown-item" href="javascript:void(0)" onclick="window.renderView('app','view/ventas/terminal', cterminal.loadView)">
+						<a class="dropdown-item" href="javascript:void(0)" onclick="window.renderView('app','view/ventas/terminal')">
 							<i class="fa fa-shopping-basket"></i>
 							Terminal de Ventas
 						</a>
@@ -43,12 +43,17 @@
 				</li>
 				<li class="nav-item dropdown">
 					<a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
+						<i class="fas fa-boxes"></i>
 						Inventario
 					</a>
 					<div class="dropdown-menu">
 						<a class="dropdown-item" href="javascript:void(0)" onclick="window.renderView('app','view/inventario/search')">
-							<i class=""></i>
+							<i class="fa fa-boxes"></i>
 							Inventarios
+						</a>
+						<a class="dropdown-item" href="javascript:void(0)" onclick="window.renderView('app','view/inventario/categorias')">
+							<i class="fa fa-list"></i>
+							Categorias
 						</a>
 					</div>
 				</li>
@@ -97,7 +102,33 @@
 		</nav>
 		<div class="container m-3" id="app">
 			No cargo en view
-		</div> 
+		</div>
+
+		<!-- Modal standard-->
+		<div class="modal fade" id="standardModal" tabindex="-1" aria-labelledby="standardModalLabel" aria-hidden="true">
+			<div class="modal-dialog modal-lg">
+				<div class="modal-content">
+					<div class="modal-header" id="modalTitulo">
+						<h5 class="modal-title" id="standardModalLabel">Modal title</h5>
+						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+					</div>
+					<div class="modal-body" id="modalCuerpo">
+						...
+					</div>
+					<div class="modal-footer" id="modalPie">
+						<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+						<button type="button" class="btn btn-primary">Guardar cambios</button>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<footer class="bg-light text-center text-lg-start fixed-bottom" data-bs-theme="light">
+			<div class="text-center p-3">
+				© 2026 Copyright:
+				<a class="text-dark" href="https://proyecto24.com/">Proyecto24.com</a>
+			</div>
+		</footer>
 		
 		<script>
 			//renderView('container','page/sandbox.html');
