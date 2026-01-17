@@ -29,5 +29,7 @@ window.sqlite = sqlite;
 window.cdatabase = cdatabase;
 window.cinventarios = cinventarios;
 
+window.cterminal = cterminal;
+window.api = api;
 // Cargar la vista inicial
 window.renderView('app', 'view/home');
