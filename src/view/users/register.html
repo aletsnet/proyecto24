@@ -3,25 +3,35 @@
     <p>Aquí puedes registrar un nuevo usuario.</p>
     <form id="registerForm" onsubmit="return false;">
         <div class="row mb-3">
-            <label for="username" class="form-label">Nombre de usuario</label>
-            <input type="text" class="form-control" id="username" name="username" required>
+            <label for="username" class="form-label col-3">Nombre de usuario</label>
+            <div class="col-9">
+                <input type="text" class="form-control" id="username" name="username" required>
+            </div>
         </div>
         <div class="row mb-3">
-            <label for="email" class="form-label">Correo electrónico</label>
-            <input type="email" class="form-control" id="email" name="email" required>
+            <label for="email" class="form-label col-3">Correo electrónico</label>
+            <div class="col-9">
+                <input type="email" class="form-control" id="email" name="email" required>
+            </div>
         </div>
         <div class="row mb-3">
-            <label for="role" class="form-label">Rol</label>
-            <input type="text" class="form-control" id="role" name="role" required>
+            <label for="role" class="form-label col-3">Rol</label>
+            <div class="col-9">
+                <select class="form-select" id="role" name="role" required></select>
+            </div>
         </div>
         <div class="row mb-3">
-            <label for="password" class="form-label">Contraseña</label>
-            <input type="password" class="form-control" id="password" name="password" minlength="8" required>
+            <label for="password" class="form-label col-3">Contraseña</label>
+            <div class="col-9">
+                <input type="password" class="form-control" id="password" name="password" minlength="8" required>
+            </div>
             <small class="form-text text-muted">Mínimo 8 caracteres</small>
         </div>
         <div class="row mb-3">
-            <label for="confirmPassword" class="form-label">Confirmar Contraseña</label>
-            <input type="password" class="form-control" id="confirmPassword" name="confirmPassword" minlength="8" required>
+            <label for="confirmPassword" class="form-label col-3">Confirmar Contraseña</label>
+            <div class="col-9">
+                <input type="password" class="form-control" id="confirmPassword" name="confirmPassword" minlength="8" required>
+            </div>
         </div>
         <div class="row mb-3">
             <div class="col-12 text-center">

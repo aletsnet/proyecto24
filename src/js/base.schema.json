@@ -55,6 +55,7 @@
           {"name": "email_verified_at", "type": "DATETIME", "nullable": true},
           {"name": "password", "type": "TEXT", "nullable": false},
           {"name": "remember_token", "type": "TEXT", "nullable": true},
+          {"name": "rol", "type": "INTEGER", "nullable": false},
           {"name": "created_at", "type": "DATETIME", "nullable": true},
           {"name": "updated_at", "type": "DATETIME", "nullable": true}
         ]
