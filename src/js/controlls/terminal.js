@@ -1,86 +1,92 @@
+// src/js/controlls/terminal.js
+
+let productos = [];
 let total = 0;
 
-// =========================
-// AGREGAR PRODUCTO
-// =========================
-function agregarProducto() {
-    const input = document.getElementById("producto");
-    const nombre = input.value || "Producto genérico";
-    const precio = 50;
-    const cantidad = 1;
-    const subtotal = precio * cantidad;
+function renderVenta() {
+    const tbody = document.getElementById("listaProductos");
+    if (!tbody) return;
 
-    total += subtotal;
+    tbody.innerHTML = "";
+    total = 0;
 
-    const fila = `
-        <tr>
-            <td>${nombre}</td>
-            <td>${cantidad}</td>
-            <td>$${precio}</td>
-            <td>$${subtotal}</td>
-        </tr>
-    `;
+    productos.forEach(p => {
+        const subtotal = p.cantidad * p.precio;
+        total += subtotal;
 
-    document.getElementById("listaProductos").innerHTML += fila;
-    document.getElementById("total").textContent = total.toFixed(2);
-    input.value = "";
+        tbody.innerHTML += `
+            <tr>
+                <td>${p.nombre}</td>
+                <td>${p.cantidad}</td>
+                <td>$${p.precio.toFixed(2)}</td>
+                <td>$${subtotal.toFixed(2)}</td>
+            </tr>
+        `;
+    });
+
+    const totalEl = document.getElementById("total");
+    if (totalEl) totalEl.textContent = total.toFixed(2);
 }
 
-// =========================
-// COBROS
-// =========================
+function cobrar(metodoPago) {
+    if (productos.length === 0) {
+        alert("No hay productos");
+        return;
+    }
+
+    const ticket = {
+        fecha: new Date().toLocaleString(),
+        cajero: "Usuario demo",
+        caja: "Caja 1",
+        metodoPago,
+        productos: [...productos],
+        total,
+        pago: total,
+        cambio: 0
+    };
+
+    // evento global (compatible con tu arquitectura)
+    window.dispatchEvent(new CustomEvent("venta:finalizada", {
+        detail: ticket
+    }));
+
+    productos = [];
+    renderVenta();
+}
+
 function cobrarEfectivo() {
-    alert("Cobro en efectivo seleccionado");
+    cobrar("EFECTIVO");
 }
 
 function cobrarTarjeta() {
-    alert("Cobro con tarjeta seleccionado");
+    cobrar("TARJETA");
 }
 
 function cobrarTransferencia() {
-    alert("Cobro por transferencia seleccionado");
-}
-
-// =========================
-// MENÚ INFERIOR
-// =========================
-function consultarPrecio() {
-    alert("Consultar precio");
-}
-
-function mostrarMenu() {
-    alert("Mostrar menú de productos");
-}
-
-function cambiarUsuario() {
-    alert("Cambiar usuario");
+    cobrar("TRANSFERENCIA");
 }
 
 function eliminarArticulo() {
-    alert("Eliminar último artículo");
+    productos.pop();
+    renderVenta();
 }
 
 function cancelarVenta() {
-    if (confirm("¿Seguro que deseas cancelar la venta?")) {
-        document.getElementById("listaProductos").innerHTML = "";
-        total = 0;
-        document.getElementById("total").textContent = "0.00";
-    }
-}
-const loadView = async () => {
-    const lquery = document.getElementById('lquery');
-    lquery.value = "SELECT * FROM sqlite_master WHERE type='table' AND name NOT LIKE 'sqlite_%';"
-    queryLoad();
+    productos = [];
+    renderVenta();
 }
 
+function loadView() {
+    renderVenta();
+}
+
+/**
+ * 👇 EXPORT DEFAULT OBLIGATORIO
+ */
 export default {
-    agregarProducto,
     cobrarEfectivo,
     cobrarTarjeta,
     cobrarTransferencia,
-    consultarPrecio,
-    mostrarMenu,
-    cambiarUsuario,
     eliminarArticulo,
     cancelarVenta,
     loadView
