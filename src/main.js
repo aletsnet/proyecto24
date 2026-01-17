@@ -8,6 +8,7 @@ import '@fortawesome/fontawesome-free/css/all.css'
 
 //controlles
 import cdatabase from './js/controlls/database.js';
+import cload from './js/controlls/load.js';
 
 //import home from './js/controlls/home.js';
 
@@ -25,6 +26,10 @@ window.trebeca = trebeca;
 window.renderView = renderView;
 window.sqlite = sqlite;
 window.cdatabase = cdatabase;
+
+//Check database connection
+cdatabase.checkDB();
+
 
 // Cargar la vista inicial
 window.renderView('app', 'view/home');
