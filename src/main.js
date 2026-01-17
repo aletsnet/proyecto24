@@ -8,6 +8,7 @@ import '@fortawesome/fontawesome-free/css/all.css'
 
 //controlles
 import cdatabase from './js/controlls/database.js';
+import cterminal from './js/controlls/terminal.js';
 //import home from './js/controlls/home.js';
 
 // Configuración de Axios para futuras peticiones al backend
