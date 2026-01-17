@@ -6,13 +6,11 @@ html, body{
     background:#535353;
 }
 
-/* ===== CONTENEDOR ===== */
 .contenedor{
     display:flex;
-    height:100vh;
+    height:200vh;
 }
 
-/* ===== PANEL ===== */
 .panel{
     width:500px;
     background:#000;
@@ -24,49 +22,42 @@ html, body{
     gap:14px;
     position:fixed;
     left:0;
-    top:72px;
+    top:0;
     height:100vh;
 }
 
-.panel button,
-.panel input,
-.panel select{
+.panel button{
     padding:16px;
     border:none;
     border-radius:18px;
     background:#4d4a4a9d;
     color:#fff;
-}
-
-#btnEditar{background:#00d4aa;}
-#btnLogo{background:#0099ff;}
-#btnProducto{background:#b700ff;}
-#btnGuardar{background:#ff7700;}
-#btnImprimir{background:#ff1900;}
-
-#controlesLogo{
-    display:none;
-    flex-direction:column;
-    gap:10px;
-}
-
-.grupo-undo-redo{
-    display:flex;
-    justify-content:space-between;
-}
-
-.btn-undo-redo{
-    width:45%;
-    background:transparent;
-    color:#fff;
-    font-size:20px;
     cursor:pointer;
 }
 
-/* ===== AREA TICKET ===== */
+#btnEditar{background:#00dfb2;}
+#btnProducto{background:#b100f7;}
+#btnGuardar{background:#ff7700;}
+#btnImprimir{background:#ff1900;}
+
+.grupo-undo-redo{
+    display:flex;
+    gap:200px;
+}
+
+.btn-undo-redo{
+    width:250px;
+    background:transparent;
+    border:none;
+    color:#fff;
+    font-size:18px;
+    cursor:pointer;
+}
+
 .area-ticket{
-    margin-left:500px;
-    width:calc(118% - 500px);
+    margin-left:600px;
+    width:calc(100% - 300px);
+    height:100vh;
     background:#afa7a7;
     display:flex;
     justify-content:center;
@@ -74,74 +65,48 @@ html, body{
 
 .scroll-ticket{
     width:380px;
-    height:100%;
+    height:100vh;
     overflow-y:auto;
     padding:20px 0;
 }
 
-/* ===== TICKET ===== */
 .ticket{
     width:300px;
-    background:#fff8f8;
-    color:#000000;              /* ← COLOR DEL TEXTO */
+    background:#fff;
     padding:15px;
+    margin:0 auto;
     box-shadow:0 0 10px rgba(0,0,0,.2);
-    font-size:14px;
+    position:relative;
 }
 
-/* ===== LOGO ===== */
 .logo{
-    display:block;
-    margin:0 auto 10px;
+    position:absolute;
+    top:10px;
 }
 
-.logo-left{margin-left:0;margin-right:auto;}
-.logo-center{margin:auto;}
-.logo-right{margin-left:auto;margin-right:0;}
-
-/* ===== TABLA ===== */
-.tabla table{
+table{
     width:100%;
     border-collapse:collapse;
-    color:#0c0c0c;              /* texto de tabla */
+    font-size:14px;
 }
-
-.tabla th, td{
+th, td{
     border-bottom:1px dashed #aaa;
     padding:4px 0;
 }
+th{text-align:left;}
 
-/* ===== TEXTOS ESPECIALES ===== */
-.ticket h1,
-.ticket h2,
-.ticket h3{
-    color:#00d4aa;
-    text-align:center;
-    margin:6px 0;
+[contenteditable="true"]{
+    outline:none;
 }
 
-.ticket .total{
-    color:#ff7700;
-    font-weight:bold;
-    font-size:16px;
-    text-align:right;
-}
-
-/* ===== IMPRESIÓN ===== */
 @media print{
-    body *{
-        visibility:hidden;
-    }
-
-    .ticket,
-    .ticket *{
-        visibility:visible;
-    }
-
+    body *{visibility:hidden;}
+    .ticket, .ticket *{visibility:visible;}
     .ticket{
         position:absolute;
-        left:50%;
-        transform:translateX(-50%);
+        left:0;
+        top:0;
+        width:100%;
         box-shadow:none;
     }
 }

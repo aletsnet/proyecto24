@@ -1,108 +1,77 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <title>Editor de Ticket</title>
+<meta charset="UTF-8">
+<title>Ticketfinal</title>
 
-    <!-- ===== ESTILOS EXTERNOS ===== -->
 <link rel="stylesheet" href="../../css/ticket.css">
-<link rel="stylesheet" href="../../js/controlls/ticket.js">
 
-
-    <!-- ===== LIBRERÍA PDF ===== -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 </head>
+<body>
 
-<body onload="loadView()">
+<div class="contenedor">
 
-    <!-- ===== PANEL ===== -->
-    <div class="panel">
+<div class="panel">
 
-        <div class="grupo-undo-redo">
-            <button class="btn-undo-redo" onclick="undo()">←</button>
-            <button class="btn-undo-redo" onclick="redo()">→</button>
-        </div>
+<div class="grupo-undo-redo">
+    <button class="btn-undo-redo" onclick="undo()">←</button>
+    <button class="btn-undo-redo" onclick="redo()">→</button>
+</div>
 
-        <button id="btnEditar" onclick="activarEdicion()">Editar ticket</button>
+<button id="btnEditar" onclick="activarEdicion()">Editar ticket</button>
+<button id="btnProducto" onclick="recargarProductos()">Importar venta</button>
+<button id="btnGuardar" onclick="guardarTicketPDF()">Guardar PDF</button>
+<button id="btnImprimir" onclick="imprimir()">Imprimir</button>
 
-        <input type="file" id="logoInput" accept="image/*" hidden>
-        <button id="btnLogo" onclick="abrirLogo()">Insertar logo</button>
+</div>
 
-        <div id="controlesLogo">
-            <label>Ancho (px)</label>
-            <input type="number" id="anchoLogo">
+<div class="area-ticket">
+<div class="scroll-ticket">
+<div class="ticket" id="ticket">
 
-            <label>Alto (px)</label>
-            <input type="number" id="altoLogo">
+<img id="logo" class="logo">
+<br><br><br>
 
-            <label>Posición del logo</label>
-            <select id="posicionLogo">
-                <option value=""></option>
-                <option value="center">Centrado</option>
-                <option value="left">Izquierda</option>
-                <option value="right">Derecha</option>
-            </select>
+<div id="contenido" contenteditable="false">
 
-            <button onclick="guardarLogo()">Guardar cambios</button>
-        </div>
+<p style="text-align:center;">¡Bienvenido!</p>
 
-        <button id="btnProducto" onclick="agregarProducto()">Agregar producto</button>
-        <button id="btnGuardar" onclick="guardarTicketFinal()">Guardar PDF</button>
-        <button id="btnImprimir" onclick="imprimir()">Imprimir</button>
+<p>Fecha: <span id="fecha"></span></p>
+<p>Atiende:</p>
+<p>Caja:</p>
 
-    </div>
+<hr>
 
-    <!-- ===== ÁREA TICKET ===== -->
-    <div class="area-ticket">
-        <div class="scroll-ticket">
-            <div class="ticket" id="ticket">
+<table>
+<thead>
+<tr>
+<th>Producto</th>
+<th>Cant</th>
+<th>Precio</th>
+<th>Subtotal</th>
+</tr>
+</thead>
+<tbody id="tbodyProductos">
+</tbody>
+</table>
 
-                <img id="logo" class="logo" style="display:none;">
+<hr>
+<p style="text-align:right;"><b id="total">Total: $0</b></p>
+<p id="pago">Pago efectivo: $0</p>
+<p id="cambio">Cambio: $0</p>
 
-                <div id="contenido">
+<hr>
+<p style="text-align:center;">¡Gracias por su compra! :)</p>
 
-                    <p style="text-align:center;">¡Bienvenido!</p>
-                    <p style="text-align:center;">Dirección del negocio</p>
+</div>
+</div>
+</div>
+</div>
 
-                    <p>Fecha: <span id="fecha"></span></p>
-                    <p>Atiende:</p>
-                    <p>Caja:</p>
+</div>
 
-                    <hr>
-
-                    <table id="tabla">
-                        <thead>
-                            <tr>
-                                <th>Producto</th>
-                                <th>Cant</th>
-                                <th>Precio</th>
-                                <th>Subtotal</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>Pan</td>
-                                <td>1</td>
-                                <td>$15</td>
-                                <td>$15</td>
-                            </tr>
-                        </tbody>
-                    </table>
-
-                    <hr>
-
-                    <p style="text-align:right;"><b>Total: $</b></p>
-                    <p>Pago efectivo: $20</p>
-                    <p>Cambio: $5</p>
-
-                    <hr>
-                    <p style="text-align:center;">¡Gracias por su compra!</p>
-
-                </div>
-            </div>
-        </div>
-    </div>
-
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+<script src="../../js/controlls/ticket.js"></script>
 
 </body>
 </html>
