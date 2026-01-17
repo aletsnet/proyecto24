@@ -8,6 +8,7 @@ import '@fortawesome/fontawesome-free/css/all.css'
 
 //controlles
 import cdatabase from './js/controlls/database.js';
+import cload from './js/controlls/load.js';
 
 import cinventarios from './js/controlls/inventarios.js';
 
@@ -31,5 +32,9 @@ window.cinventarios = cinventarios;
 
 window.cterminal = cterminal;
 window.api = api;
+//Check database connection
+cdatabase.checkDB();
+
+
 // Cargar la vista inicial
 window.renderView('app', 'view/home');
