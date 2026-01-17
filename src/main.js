@@ -9,6 +9,7 @@ import '@fortawesome/fontawesome-free/css/all.css'
 //controlles
 import cdatabase from './js/controlls/database.js';
 
+import cempleados from './js/controlls/empleados.js';
 //import home from './js/controlls/home.js';
 
 // Configuración de Axios para futuras peticiones al backend
@@ -25,6 +26,7 @@ window.trebeca = trebeca;
 window.renderView = renderView;
 window.sqlite = sqlite;
 window.cdatabase = cdatabase;
+window.cempleados = cempleados;
 
 // Cargar la vista inicial
 window.renderView('app', 'view/home');

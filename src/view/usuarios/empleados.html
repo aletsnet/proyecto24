@@ -1,0 +1,37 @@
+<style>
+        .main-card { background: rgb((114, 113, 131), 8, 8); border-radius: 12px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); padding: 20px; max-width: 900px; margin: auto; }
+        h2 { color: #dfe0e2; text-align: center; border-bottom: 2px solid #e8eaed; padding-bottom: 15px; }
+        
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        th { background-color: #f8f9fa; color: #020146; text-transform: uppercase; font-size: 12px; letter-spacing: 1px; padding: 15px; text-align: left; }
+        td { padding: 12px 15px; border-bottom: 1px solid #eee; }
+
+        /* Estilos de los selectores */
+        select { padding: 8px; border-radius: 6px; border: 1px solid #dadce0; background-color: #fff; cursor: pointer; width: 100%; }
+        select:focus { outline: none; border-color: #1a73e8; }
+
+        .status-active { color: #188038; font-weight: bold; }
+        .status-inactive { color: #d93025; font-weight: bold; }
+        
+        .btn-save { background-color: #1a73e8; color: white; border: none; padding: 10px 20px; border-radius: 6px; cursor: pointer; float: right; margin-top: 20px; }
+        .btn-save:hover { background-color: #1557b0; }
+    </style>
+<div class="main-card">
+    <h2>Panel de Empleados</h2>
+    
+    
+    <table id="tablaEmpleados" class="table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nombre</th>
+                <th>Puesto</th>
+                <th>Estado</th>
+            </tr>
+        </thead>
+        <tbody id="cuerpoTabla">
+            </tbody>
+    </table>
+
+    <button class="btn-save" onclick="guardarCambios()">Guardar Cambios</button>
+</div>

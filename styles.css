@@ -1,0 +1,75 @@
+body{
+    font-family: 'Segoe UI', Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background: linear-gradient(135deg, #a2b1c0, #00c6ff);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+/* CONTENEDOR */
+.form-container{
+    background-color: white;
+    padding: 40px;
+    border-radius: 12px;
+    box-shadow: 0 15px 30px rgba(0,0,0,0.15);
+    width: 100%;
+    max-width: 420px;
+}
+
+/* TÍTULO */
+.form-container h2{
+    text-align: center;
+    margin-bottom: 25px;
+    color: #333;
+    font-size: 26px;
+}
+
+/* INPUTS */
+form input{
+    width: 100%;
+    padding: 14px;
+    margin-bottom: 18px;
+    border: 1.5px solid #ddd;
+    border-radius: 8px;
+    font-size: 16px;
+    transition: 0.3s;
+}
+
+form input::placeholder{
+    color: #aaa;
+}
+
+form input:focus{
+    border-color: #007BFF;
+    box-shadow: 0 0 0 2px rgba(83, 88, 94, 0.2);
+    outline: none;
+}
+
+/* BOTÓN */
+form button{
+    width: 100%;
+    padding: 14px;
+    background: linear-gradient(135deg, #007BFF, #0056b3);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 17px;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+form button:hover{
+    transform: translateY(-2px);
+    box-shadow: 0 8px 15px rgba(0,0,0,0.2);
+}
+
+/* MENSAJE DE ERROR */
+.error-message{
+    color: #e63946;
+    font-size: 14px;
+    margin-bottom: 15px;
+    text-align: center;
+}
