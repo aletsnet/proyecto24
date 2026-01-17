@@ -100,13 +100,13 @@ html, body{
 .logo-right{margin-left:auto;margin-right:0;}
 
 /* ===== TABLA ===== */
-table{
+.tabla table{
     width:100%;
     border-collapse:collapse;
     color:#0c0c0c;              /* texto de tabla */
 }
 
-th, td{
+.tabla th, td{
     border-bottom:1px dashed #aaa;
     padding:4px 0;
 }
