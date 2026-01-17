@@ -59,6 +59,14 @@
           {"name": "updated_at", "type": "DATETIME", "nullable": true}
         ]
       },
+      {"name":"roles",
+       "columns": [
+          {"name": "id", "type": "INTEGER", "primaryKey": true, "autoIncrement": true, "nullable": false},
+          {"name": "rol", "type": "TEXT", "nullable": false},
+          {"name": "descripcion", "type": "TEXT", "nullable": true},
+          {"name": "status", "type": "INTEGER", "nullable": true}
+        ]
+      },
       {
         "name": "clientes",
         "columns": [
