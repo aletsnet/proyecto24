@@ -19,31 +19,4 @@
             }
         ]
     }
-    ,
-    {
-        "table": "categorias",
-        "data": [
-            {
-                "categoria": "Electronica",
-                "padre": null,
-                "descripcion": "Dispositivos electronicos y accesorios",
-                "status": 1,
-                "user": 1
-            },
-            {
-                "categoria": "Ropa",
-                "padre": null,
-                "descripcion": "Prendas de vestir para todas las edades",
-                "status": 1,
-                "user": 1
-            },
-            {
-                "categoria": "Hogar",
-                "padre": null,
-                "descripcion": "Articulos para el hogar y decoracion",
-                "status": 1,
-                "user": 1
-            }
-        ]
-    }
 ]
