@@ -8,6 +8,7 @@ import '@fortawesome/fontawesome-free/css/all.css'
 
 //controlles
 import cdatabase from './js/controlls/database.js';
+import cterminal from './js/controlls/terminal.js';
 //import cload from './js/controlls/load.js';
 
 import cinventarios from './js/controlls/inventarios.js';
