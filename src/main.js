@@ -14,6 +14,10 @@ import cterminal from './js/controlls/terminal.js';
 import cinventarios from './js/controlls/inventarios.js';
 
 import cticket from './js/controlls/ticket.js'
+
+cticket.init();
+
+
 //import home from './js/controlls/home.js';
 
 // Configuración de Axios para futuras peticiones al backend

@@ -1,77 +1,36 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-<meta charset="UTF-8">
-<title>Ticketfinal</title>
-
-<link rel="stylesheet" href="../../css/ticket.css">
-
-</head>
-<body>
+<link rel="stylesheet" href="/src/css/ticket.css">
 
 <div class="contenedor">
+  <div class="panel">
+    <div class="grupo-undo-redo">
+      <button class="btn-undo-redo" onclick="undo()">←</button>
+      <button class="btn-undo-redo" onclick="redo()">→</button>
+    </div>
 
-<div class="panel">
+    <button onclick="activarEdicion()">Editar ticket</button>
+    <button onclick="recargarProductos()">Importar venta</button>
+    <button onclick="guardarTicketPDF()">Guardar PDF</button>
+    <button onclick="imprimir()">Imprimir</button>
+  </div>
 
-<div class="grupo-undo-redo">
-    <button class="btn-undo-redo" onclick="undo()">←</button>
-    <button class="btn-undo-redo" onclick="redo()">→</button>
+  <div class="area-ticket">
+    <div class="scroll-ticket">
+      <div class="ticket" id="ticket">
+        <img id="logo" class="logo">
+
+        <div id="contenido">
+          <p style="text-align:center;">¡Bienvenido!</p>
+          <p>Fecha: <span id="fecha"></span></p>
+          <hr>
+          <table>
+            <tbody id="tbodyProductos"></tbody>
+          </table>
+          <p id="total">Total: $0</p>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
 
-<button id="btnEditar" onclick="activarEdicion()">Editar ticket</button>
-<button id="btnProducto" onclick="recargarProductos()">Importar venta</button>
-<button id="btnGuardar" onclick="guardarTicketPDF()">Guardar PDF</button>
-<button id="btnImprimir" onclick="imprimir()">Imprimir</button>
-
-</div>
-
-<div class="area-ticket">
-<div class="scroll-ticket">
-<div class="ticket" id="ticket">
-
-<img id="logo" class="logo">
-<br><br><br>
-
-<div id="contenido" contenteditable="false">
-
-<p style="text-align:center;">¡Bienvenido!</p>
-
-<p>Fecha: <span id="fecha"></span></p>
-<p>Atiende:</p>
-<p>Caja:</p>
-
-<hr>
-
-<table>
-<thead>
-<tr>
-<th>Producto</th>
-<th>Cant</th>
-<th>Precio</th>
-<th>Subtotal</th>
-</tr>
-</thead>
-<tbody id="tbodyProductos">
-</tbody>
-</table>
-
-<hr>
-<p style="text-align:right;"><b id="total">Total: $0</b></p>
-<p id="pago">Pago efectivo: $0</p>
-<p id="cambio">Cambio: $0</p>
-
-<hr>
-<p style="text-align:center;">¡Gracias por su compra! :)</p>
-
-</div>
-</div>
-</div>
-</div>
-
-</div>
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
-<script src="../../js/controlls/ticket.js"></script>
-
-</body>
-</html>
+<script src="/src/js/html2pdf.bundle.min.js"></script>
+<script defer src="/src/js/controlls/ticket.js"></script>
