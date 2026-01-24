@@ -12,6 +12,8 @@ import cterminal from './js/controlls/terminal.js';
 import cload from './js/controlls/load.js';
 import cusers from './js/controlls/users.js';
 import cinventarios from './js/controlls/inventarios.js';
+import cproductos from './js/controlls/productos.js';
+import ccategorias from './js/controlls/categorias.js';
 
 import cticket from './js/controlls/ticket.js'
  // Exponer funciones para botones HTML
