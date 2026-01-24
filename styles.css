@@ -1,0 +1,74 @@
+/* Reset básico */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+/* Fondo general */
+body {
+    background: linear-gradient(135deg, #4facfe, #00f2fe);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+/* Contenedor del formulario */
+.form-container {
+    background: #fff;
+    padding: 2rem;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    width: 100%;
+    max-width: 400px;
+    text-align: center;
+}
+
+/* Título */
+.form-container h2 {
+    margin-bottom: 1.5rem;
+    color: #333;
+}
+
+/* Inputs */
+.form-container input {
+    width: 100%;
+    padding: 0.8rem;
+    margin: 0.5rem 0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    transition: border 0.3s;
+}
+
+.form-container input:focus {
+    border-color: #4facfe;
+    outline: none;
+}
+
+/* Botón */
+.form-container button {
+    width: 100%;
+    padding: 0.8rem;
+    margin-top: 1rem;
+    background: #4facfe;
+    border: none;
+    border-radius: 5px;
+    color: white;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.form-container button:hover {
+    background: #00c6fb;
+}
+
+/* Mensajes de error */
+.error-message {
+    color: red;
+    font-size: 0.9rem;
+    margin-top: 0.3rem;
+    text-align: left;
+}

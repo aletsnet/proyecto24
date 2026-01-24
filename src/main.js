@@ -12,8 +12,6 @@ import cterminal from './js/controlls/terminal.js';
 import cload from './js/controlls/load.js';
 import cusers from './js/controlls/users.js';
 import cinventarios from './js/controlls/inventarios.js';
-import ccategorias from './js/controlls/categorias.js';
-import cproductos from './js/controlls/productos.js';
 
 import cticket from './js/controlls/ticket.js'
 //import home from './js/controlls/home.js';
@@ -32,19 +30,13 @@ window.trebeca = trebeca;
 window.renderView = renderView;
 window.sqlite = sqlite;
 window.cdatabase = cdatabase;
-window.cticket = cticket;
+window.cterminal = cterminal;
 window.cinventarios = cinventarios;
-window.ccategorias = ccategorias;
-window.cproductos = cproductos;
-//window.cload = cload;
-//window.home = home;
-window.cload = cload;
-window.cusers = cusers;
 
 window.cterminal = cterminal;
 window.api = api;
 //Check database connection
-cload.checkRegister();
+//cdatabase.checkDB();
 
 
 // Cargar la vista inicial
