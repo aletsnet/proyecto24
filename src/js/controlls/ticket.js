@@ -1,97 +1,93 @@
-/* ===== FECHA ===== */
-document.getElementById("fecha").textContent = new Date().toLocaleString();
+const cticket = {
 
-/* ===== LOGO ===== */
-const logo = document.getElementById("logo");
-logo.src = "logoterminado.png";
-logo.style.width = "120px";
-logo.style.height = "100px";
-logo.style.left = "50%";
-logo.style.transform = "translateX(-50%)";
+    historial: [],
+    indice: -1,
+    ticket: null,
+    contenido: null,
 
-/* ===== HISTORIAL ===== */
-let historial = [];
-let indice = -1;
+    loadView() {
+        // ===== FECHA =====
+        const fecha = document.getElementById("fecha");
+        if (fecha) {
+            fecha.textContent = new Date().toLocaleString();
+        }
 
-const ticket = document.getElementById("ticket");
-const contenido = document.getElementById("contenido");
+        // ===== ELEMENTOS =====
+        this.ticket = document.getElementById("ticket");
+        this.contenido = document.getElementById("contenido");
 
-function guardarEstado(){
-    historial = historial.slice(0, indice + 1);
-    historial.push(ticket.innerHTML);
-    indice++;
-}
+        if (!this.ticket || !this.contenido) {
+            console.warn("ticket o contenido no encontrados");
+            return;
+        }
 
-guardarEstado();
+        // ===== HISTORIAL =====
+        this.historial = [];
+        this.indice = -1;
+        this.guardarEstado();
 
-contenido.addEventListener("input", guardarEstado);
-
-function undo(){
-    if(indice > 0){
-        indice--;
-        ticket.innerHTML = historial[indice];
-    }
-}
-
-function redo(){
-    if(indice < historial.length - 1){
-        indice++;
-        ticket.innerHTML = historial[indice];
-    }
-}
-
-function activarEdicion(){
-    contenido.contentEditable = true;
-}
-
-function imprimir(){
-    window.print();
-}
-
-/* ===== PDF ===== */
-function guardarTicketPDF(){
-    html2pdf().set({
-        margin:0,
-        filename:"ticket_final.pdf",
-        html2canvas:{scale:3},
-        jsPDF:{unit:"mm", format:[100,200]}
-    }).from(ticket).save();
-}
-
-/* ===== IMPORTAR VENTA ===== */
-function recargarProductos(){
-
-    fetch("producto.json")
-    .then(res => res.json())
-    .then(productos => {
-
-        const tbody = document.getElementById("tbodyProductos");
-        tbody.innerHTML = "";
-
-        let total = 0;
-
-        productos.forEach(p => {
-            const subtotal = p.cantidad * p.precio;
-            total += subtotal;
-
-            const tr = document.createElement("tr");
-            tr.innerHTML = `
-                <td>${p.nombre}</td>
-                <td>${p.cantidad}</td>
-                <td>$${p.precio}</td>
-                <td>$${subtotal}</td>
-            `;
-            tbody.appendChild(tr);
+        // ===== EVENTOS =====
+        this.contenido.addEventListener("input", () => {
+            this.guardarEstado();
         });
+    },
 
-        document.getElementById("total").textContent = "Total: $" + total;
-        document.getElementById("pago").textContent = "Pago efectivo: $" + total;
-        document.getElementById("cambio").textContent = "Cambio: $0";
+    guardarEstado() {
+        if (!this.ticket) return;
 
-        guardarEstado();
-    })
-    .catch(error => {
-        alert("Error al cargar productos.json");
-        console.error(error);
-    });
-}
+        this.historial = this.historial.slice(0, this.indice + 1);
+        this.historial.push(this.ticket.innerHTML);
+        this.indice++;
+    },
+
+    undo() {
+        if (this.indice > 0) {
+            this.indice--;
+            this.ticket.innerHTML = this.historial[this.indice];
+        }
+    },
+
+    redo() {
+        if (this.indice < this.historial.length - 1) {
+            this.indice++;
+            this.ticket.innerHTML = this.historial[this.indice];
+        }
+    },
+
+    activarEdicion() {
+        if (!this.contenido) return;
+        this.contenido.contentEditable = true;
+        this.contenido.focus();
+    },
+
+    desactivarEdicion() {
+        if (!this.contenido) return;
+        this.contenido.contentEditable = false;
+    },
+
+    imprimir() {
+        window.print();
+    },
+
+    guardarTicketPDF() {
+        if (!this.ticket) return;
+
+        html2pdf()
+            .set({
+                margin: 0,
+                filename: "ticket_final.pdf",
+                html2canvas: { scale: 3 },
+                jsPDF: { unit: "mm", format: [100, 200] }
+            })
+            .from(this.ticket)
+            .save();
+    }
+};
+
+export default cticket;
+// ===== EXPONER FUNCIONES AL HTML =====
+window.guardarTicketPDF = () => cticket.guardarTicketPDF();
+window.imprimir = () => cticket.imprimir();
+window.activarEdicion = () => cticket.activarEdicion();
+window.undo = () => cticket.undo();
+window.redo = () => cticket.redo();
