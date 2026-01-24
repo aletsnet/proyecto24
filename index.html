@@ -51,7 +51,7 @@
 							<i class="fa fa-boxes"></i>
 							Inventarios
 						</a>
-						<a class="dropdown-item" href="javascript:void(0)" onclick="window.renderView('app','view/inventario/categorias')">
+						<a class="dropdown-item" href="javascript:void(0)" onclick="window.renderView('app','view/inventario/categorias', () => { ccategorias.loadView(); })">
 							<i class="fa fa-list"></i>
 							Categorias
 						</a>
@@ -110,7 +110,7 @@
 				<div class="modal-content">
 					<div class="modal-header" id="modalTitulo">
 						<h5 class="modal-title" id="standardModalLabel">Proyecto 24</h5>
-						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" style="display: none;"></button>
 					</div>
 					<div class="modal-body" id="modalCuerpo">
 						...
