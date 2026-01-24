@@ -1,22 +1,152 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Registro</title>
-    <link rel="stylesheet" href="styles.css">
+  <meta charset="UTF-8">
+  <title>Registro de Usuario</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #0a0e24, #070707);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+
+    .registro-container {
+      background-color: #050505;
+      padding: 40px;
+      border-radius: 15px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+      text-align: center;
+      width: 350px;
+      animation: fadeIn 1s ease-in-out;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .registro-container h2 {
+      margin-bottom: 25px;
+      color: #f8f6f6;
+    }
+
+    .registro-container input {
+      width: 100%;
+      padding: 12px;
+      margin: 12px 0;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      font-size: 14px;
+      transition: border-color 0.3s;
+    }
+
+    .registro-container input:focus {
+
+
+
+
+
+
+
+
+
+
+      border-color: #e45807;
+      outline: none;
+    }
+
+    .registro-container button {
+      width: 100%;
+      padding: 12px;
+      background: linear-gradient(135deg, #4facfe, #00f2fe);
+      color: white;
+      font-size: 16px;
+      font-weight: bold;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: transform 0.2s;
+    }
+
+    .registro-container button:hover {
+      transform: scale(1.05);
+    }
+
+    .error {
+      color: red;
+      font-size: 13px;
+      margin-top: -5px;
+      margin-bottom: 10px;
+      display: none;
+      text-align: left;
+    }
+  </style>
 </head>
 <body>
-    <div class="form-container">
-        <h2>Registro</h2>
-        <form id="registration-form">
-            <input type="text" id="username" name="username" placeholder="Nombre" required>
-            <input type="email" id="email" name="email" placeholder="Email" required>
-            <input type="password" id="password" name="password" placeholder="Contraseña" required>
-            <p id="password-error" class="error-message"></p></p>
-            <button type="submit">Registrarse</button> 
-        </form>
-    </div>
-    <script src="app.js"></script>
+  <div class="registro-container">
+    <h2>Registro de Usuario</h2>
+    <form id="registroForm">
+      <input type="text" id="nombre" placeholder="Nombre" required>
+      <div id="errorNombre" class="error">El nombre no puede estar vacío.</div>
+
+      <input type="email" id="correo" placeholder="Correo" required>
+      <div id="errorCorreo" class="error">Ingresa un correo válido.</div>
+
+      <input type="password" id="password" placeholder="Contraseña" required>
+      <div id="errorPassword" class="error">La contraseña debe tener al menos 8 caracteres.</div>
+
+      <button type="submit">Registrarse</button>
+    </form>
+  </div>
+
+  <script>
+    const form = document.getElementById('registroForm');
+    const nombreInput = document.getElementById('nombre');
+    const correoInput = document.getElementById('correo');
+    const passwordInput = document.getElementById('password');
+
+    const errorNombre = document.getElementById('errorNombre');
+    const errorCorreo = document.getElementById('errorCorreo');
+    const errorPassword = document.getElementById('errorPassword');
+
+    form.addEventListener('submit', function(event) {
+      let valido = true;
+
+      // Validación nombre
+      if (nombreInput.value.trim() === "") {
+        errorNombre.style.display = 'block';
+        valido = false;
+      } else {
+        errorNombre.style.display = 'none';
+      }
+
+      // Validación correo
+      const correoRegex = /^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/;
+      if (!correoRegex.test(correoInput.value)) {
+        errorCorreo.style.display = 'block';
+        valido = false;
+      } else {
+        errorCorreo.style.display = 'none';
+      }
+
+      // Validación contraseña
+      if (passwordInput.value.length < 8) {
+        errorPassword.style.display = 'block';
+        valido = false;
+      } else {
+        errorPassword.style.display = 'none';
+      }
+
+      if (!valido) {
+        event.preventDefault(); // Evita envío si hay errores
+      } else {
+        alert('Registro exitoso 🎉');
+      }
+    });
+  </script>
 </body>
 </html>

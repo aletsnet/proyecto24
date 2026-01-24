@@ -12,7 +12,7 @@ import cterminal from './js/controlls/terminal.js';
 //import cload from './js/controlls/load.js';
 
 import cinventarios from './js/controlls/inventarios.js';
-
+import cempleados from './js/controlls/empleados.js';
 //import home from './js/controlls/home.js';
 
 // Configuración de Axios para futuras peticiones al backend
@@ -29,6 +29,9 @@ window.trebeca = trebeca;
 window.renderView = renderView;
 window.sqlite = sqlite;
 window.cdatabase = cdatabase;
+window.cterminal = cterminal;
+window.cinventarios = cinventarios;
+window.cempleados = cempleados;
 
 // Cargar la vista inicial
 window.renderView('app', 'view/home');
