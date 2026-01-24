@@ -9,8 +9,8 @@ import '@fortawesome/fontawesome-free/css/all.css'
 //controlles
 import cdatabase from './js/controlls/database.js';
 import cterminal from './js/controlls/terminal.js';
-//import cload from './js/controlls/load.js';
-
+import cload from './js/controlls/load.js';
+import cusers from './js/controlls/users.js';
 import cinventarios from './js/controlls/inventarios.js';
 import ccategorias from './js/controlls/categorias.js';
 import cproductos from './js/controlls/productos.js';
@@ -38,11 +38,13 @@ window.ccategorias = ccategorias;
 window.cproductos = cproductos;
 //window.cload = cload;
 //window.home = home;
+window.cload = cload;
+window.cusers = cusers;
 
 window.cterminal = cterminal;
 window.api = api;
 //Check database connection
-//cdatabase.checkDB();
+cload.checkRegister();
 
 
 // Cargar la vista inicial

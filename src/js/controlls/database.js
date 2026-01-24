@@ -28,13 +28,6 @@ const checkDB = async () => {
         sqlite.namedb = "mydb";
         await sqlite.checkModel();
         Swal.close();
-        Swal.fire({
-            icon: 'success',
-            title: 'Base de datos verificada',
-            text: 'La base de datos está en buen estado.',
-            timer: 2000,
-            showConfirmButton: false
-        });
     } catch(err) {
         console.error(err);
         Swal.close();
