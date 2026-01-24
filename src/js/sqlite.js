@@ -45,7 +45,7 @@ export const query = async (sql, params = []) => {
 export const execute = async (sql, params = []) => {
     try {
         const database = await connectDB();
-        let result = await database.execute(sql, params);
+        let result = await database.execute(sql, params);        
         await closeDB();
         return result;
     } catch (error) {
@@ -76,7 +76,6 @@ export const update = async (table, data, where, whereParams = []) => {
         .map((key, i) => `${key} = $${i + 1}`)
         .join(', ');
     const values = [...Object.values(data), ...whereParams];
-    
     const sql = `UPDATE ${table} SET ${setClause} WHERE ${where}`;
     return await execute(sql, values);
 };
@@ -162,6 +161,8 @@ const checkDate = async () => {
     const data = dataDefault;
     for (let tableData of data) {
         const tableName = tableData.table;  
+        console.log(tableName);
+        
         for (let row of tableData.data) {
             // Verificar si el registro ya existe
             let whereClause = [];

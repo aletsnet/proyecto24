@@ -1,3 +1,5 @@
+import Swal from "sweetalert2";
+
 let data = [];
 const config = {
             search: {
@@ -34,22 +36,20 @@ const config = {
                 { name: "edit", label: '<i class="fas fa-edit"></i>', class: 'btn btn-warning btn-sm me-1', modo: "row" },
                 { name: "delete", label: '<i class="fas fa-trash"></i>', class: 'btn btn-danger btn-sm me-1', modo: "row" },
                 { name: "save", label: '<i class="fas fa-save"></i>', class: 'btn btn-success btn-sm me-1', modo: "row" },
-                { name: "btn_extra", label: '<i class="fas fa-info-circle"></i>', class: 'btn btn-info btn-sm m-1', modo: "row_extra", function: (event) => { other_function(event); } },
+                { name: "btn_extra", label: '<i class="fas fa-cubes"></i>', class: 'btn btn-info btn-sm m-1', modo: "row_extra", function: (event) => { other_function(event); } },
             ],
             tableClass: 'tinventarios',
             // Usando referencias a funciones (más seguro que eval)
-            add: (event) => {btn_add(event)},
-            edit: (event) => {btn_edit(event)},
+            
             delete: (event) => {btn_delete(event)},   
             save: (event) => {btn_save(event)},
         };
 
-        const btn_add = () => {
-            console.log("Agregar nuevo registro");
-        }
+        
         const btn_edit = (event) => {
             //console.log(event);
             const id = event.target.id;
+
             console.log("Editar registro id:", id);
         }
 
@@ -59,13 +59,24 @@ const config = {
         }
         const btn_save = (event) => {
             const id = event.target.id;
-            console.log("Guardar registro id:", id);
+            console.log("Guardar registro id:", event.target);
+        }
+
+        const other_function = (event) => {
+            const id = event.target.id;
+            Swal.fire({
+                title: 'Información del inventario',
+                text: 'Aquí puedes agregar más detalles sobre el inventario con ID: ' + id,
+                icon: 'info',
+            });
         }
 
     
-export const loadView = async () => {
-    data = await window.sqlite.query("SELECT * FROM inventarios");
-    window.trebeca(config, data);
-}
+        const loadView = async () => {
+            data = await window.sqlite.query("SELECT * FROM inventarios");
+            window.trebeca(config, data);
+            console.log(data);
+            
+        }
 
 export default {loadView};
