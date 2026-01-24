@@ -5,6 +5,7 @@ import trebeca from './js/trebeca.js';
 import renderView from './js/views.js';
 import sqlite from './js/sqlite.js';
 import '@fortawesome/fontawesome-free/css/all.css'
+import '../src/css/ticket.css';
 
 //controlles
 import cdatabase from './js/controlls/database.js';
@@ -40,7 +41,7 @@ window.sqlite = sqlite;
 window.cdatabase = cdatabase;
 window.cterminal = cterminal;
 window.cinventarios = cinventarios;
-
+window.cticket=cticket;
 window.cterminal = cterminal;
 window.api = api;
 //Check database connection
