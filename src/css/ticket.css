@@ -6,15 +6,17 @@ html, body{
     background:#535353;
 }
 
+/* ===== CONTENEDOR GENERAL ===== */
 .contenedor{
     display:flex;
-    height:200vh;
+    height:100vh;
 }
 
+/* ===== PANEL LATERAL ===== */
 .panel{
     width:500px;
     background:#000;
-    color:#fff;
+    color:#cc0a0a;
     padding:30px;
     padding-top:60px;
     display:flex;
@@ -22,8 +24,10 @@ html, body{
     gap:14px;
     position:fixed;
     left:0;
-    top:0;
-    height:100vh;
+    top:72px;
+    height:calc(100vh - 72px);
+    box-sizing:border-box;
+    overflow-y:auto;
 }
 
 .panel button{
@@ -33,20 +37,27 @@ html, body{
     background:#4d4a4a9d;
     color:#fff;
     cursor:pointer;
+    transition:all .2s ease;
 }
 
-#btnEditar{background:#00dfb2;}
-#btnProducto{background:#b100f7;}
-#btnGuardar{background:#ff7700;}
-#btnImprimir{background:#ff1900;}
+.panel button:hover{
+    transform:scale(1.03);
+    opacity:.9;
+}
+
+#btnEditar{ background:#00dfb2; }
+#btnProducto{ background:#b100f7; }
+#btnGuardar{ background:#ff7700; }
+#btnImprimir{ background:#ff1900; }
 
 .grupo-undo-redo{
     display:flex;
-    gap:200px;
+    justify-content:space-between;
+    margin-bottom:10px;
 }
 
 .btn-undo-redo{
-    width:250px;
+    width:120px;
     background:transparent;
     border:none;
     color:#fff;
@@ -54,59 +65,135 @@ html, body{
     cursor:pointer;
 }
 
+/* ===== AREA TICKET ===== */
 .area-ticket{
-    margin-left:600px;
-    width:calc(100% - 300px);
+    margin-left:550px;
+    width:calc(100% - 500px);
     height:100vh;
     background:#afa7a7;
     display:flex;
     justify-content:center;
+    align-items:flex-start;
+    overflow:hidden;
 }
 
 .scroll-ticket{
     width:380px;
-    height:100vh;
+    height:100%;
     overflow-y:auto;
     padding:20px 0;
 }
 
+/* ===== TICKET ===== */
 .ticket{
     width:300px;
-    background:#fff;
+    background:#ffffff;
+    color:#000000;
     padding:15px;
     margin:0 auto;
     box-shadow:0 0 10px rgba(0,0,0,.2);
     position:relative;
+    font-size:14px;
+    line-height:1.4;
 }
 
+/* ===== LOGO ===== */
 .logo{
-    position:absolute;
-    top:10px;
+    max-width:120px;
+    width:100%;
+    height:auto;
+    display:block;
+    margin:0 auto 2px auto; /* espacio mínimo */
+    filter: grayscale(100%) contrast(120%);
 }
 
-table{
+/* ===== TEXTO DEL TICKET ===== */
+.ticket p{
+    margin:4px 0;
+}
+
+/* 🔥 CLAVE: quitar espacio superior del primer texto */
+.ticket p:first-of-type{
+    margin-top:0;
+}
+
+.ticket hr{
+    border:none;
+    border-top:1px dashed #000000;
+    margin:8px 0;
+}
+
+/* ===== TABLA DEL TICKET ===== */
+.ticket table{
     width:100%;
     border-collapse:collapse;
-    font-size:14px;
+    font-size:13px;
 }
-th, td{
+
+.ticket th{
+    text-align:left;
+    font-weight:bold;
+    border-bottom:1px solid #000;
+}
+
+.ticket td{
     border-bottom:1px dashed #aaa;
-    padding:4px 0;
+    padding:3px 0;
 }
-th{text-align:left;}
 
+/* ===== TOTALES ===== */
+#total{
+    font-size:16px;
+}
+
+#pago,
+#cambio{
+    font-size:13px;
+}
+
+/* ===== EDICIÓN ===== */
 [contenteditable="true"]{
-    outline:none;
+    outline:1px dashed #00dfb2;
+    padding:2px;
 }
 
+/* ===== SCROLL BAR ===== */
+.scroll-ticket::-webkit-scrollbar{
+    width:6px;
+}
+.scroll-ticket::-webkit-scrollbar-thumb{
+    background:#777;
+    border-radius:10px;
+}
+
+/* ===== IMPRESIÓN ===== */
 @media print{
-    body *{visibility:hidden;}
-    .ticket, .ticket *{visibility:visible;}
+    body *{
+        visibility:hidden;
+    }
+
+    .ticket,
+    .ticket *{
+        visibility:visible;
+        color:#000;
+    }
+
     .ticket{
         position:absolute;
         left:0;
         top:0;
         width:100%;
         box-shadow:none;
+        font-size:12px;
+    }
+
+    .logo{
+        width:180px;
+        margin-bottom:2px;
+        filter: grayscale(100%);
+    }
+
+    .ticket p:first-of-type{
+        margin-top:0;
     }
 }

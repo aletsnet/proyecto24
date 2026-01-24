@@ -14,8 +14,12 @@ import cterminal from './js/controlls/terminal.js';
 import cinventarios from './js/controlls/inventarios.js';
 
 import cticket from './js/controlls/ticket.js'
-
-cticket.init();
+ // Exponer funciones para botones HTML
+    window.undo = () => cticket.undo();
+    window.redo = () => cticket.redo();
+    window.activarEdicion = () => cticket.activarEdicion();
+    window.imprimir = () => cticket.imprimir();
+    window.guardarTicketPDF = () => cticket.guardarTicketPDF();
 
 
 //import home from './js/controlls/home.js';
