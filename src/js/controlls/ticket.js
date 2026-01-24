@@ -1,165 +1,97 @@
-const loadView = () => {
+/* ===== FECHA ===== */
+document.getElementById("fecha").textContent = new Date().toLocaleString();
 
-  /* ===== FECHA ===== */
-  document.getElementById("fecha").textContent =
-    new Date().toLocaleString();
+/* ===== LOGO ===== */
+const logo = document.getElementById("logo");
+logo.src = "logoterminado.png";
+logo.style.width = "120px";
+logo.style.height = "100px";
+logo.style.left = "50%";
+logo.style.transform = "translateX(-50%)";
 
-  /* ===== VARIABLES ===== */
-  let historial = [];
-  let indice = -1;
-  let restaurando = false;
+/* ===== HISTORIAL ===== */
+let historial = [];
+let indice = -1;
 
-  const ticket = document.getElementById("ticket");
-  let contenido = document.getElementById("contenido");
-  let logo = document.getElementById("logo");
+const ticket = document.getElementById("ticket");
+const contenido = document.getElementById("contenido");
 
-  const logoInput = document.getElementById("logoInput");
-  const controlesLogo = document.getElementById("controlesLogo");
-  const anchoLogo = document.getElementById("anchoLogo");
-  const altoLogo = document.getElementById("altoLogo");
-  const posicionLogo = document.getElementById("posicionLogo");
-
-  /* ===== HISTORIAL ===== */
-  const guardarEstado = () => {
-    if (restaurando) return;
+function guardarEstado(){
     historial = historial.slice(0, indice + 1);
     historial.push(ticket.innerHTML);
     indice++;
-  };
+}
 
-  const restaurarReferencias = () => {
-    contenido = document.getElementById("contenido");
-    logo = document.getElementById("logo");
-  };
+guardarEstado();
 
-  /* ===== UNDO / REDO ===== */
-  const undo = () => {
-    if (indice > 0) {
-      restaurando = true;
-      indice--;
-      ticket.innerHTML = historial[indice];
-      restaurarReferencias();
-      restaurando = false;
+contenido.addEventListener("input", guardarEstado);
+
+function undo(){
+    if(indice > 0){
+        indice--;
+        ticket.innerHTML = historial[indice];
     }
-  };
+}
 
-  const redo = () => {
-    if (indice < historial.length - 1) {
-      restaurando = true;
-      indice++;
-      ticket.innerHTML = historial[indice];
-      restaurarReferencias();
-      restaurando = false;
+function redo(){
+    if(indice < historial.length - 1){
+        indice++;
+        ticket.innerHTML = historial[indice];
     }
-  };
+}
 
-  /* ===== EDICIÓN ===== */
-  const activarEdicion = () => {
+function activarEdicion(){
     contenido.contentEditable = true;
-    contenido.addEventListener("input", guardarEstado);
-  };
+}
 
-  /* ===== LOGO ===== */
-  const abrirLogo = () => {
-    controlesLogo.style.display = "flex";
-    logoInput.click();
-  };
-
-  logoInput.onchange = e => {
-    const file = e.target.files[0];
-    if (!file) return;
-
-    const reader = new FileReader();
-    reader.onload = () => {
-      logo.src = reader.result;
-      logo.style.display = "block";
-      guardarEstado();
-    };
-    reader.readAsDataURL(file);
-  };
-
-  anchoLogo.oninput = () => {
-    logo.style.width = anchoLogo.value + "px";
-    guardarEstado();
-  };
-
-  altoLogo.oninput = () => {
-    logo.style.height = altoLogo.value + "px";
-    guardarEstado();
-  };
-
-  posicionLogo.onchange = () => {
-    logo.classList.remove("logo-left", "logo-center", "logo-right");
-    if (posicionLogo.value) {
-      logo.classList.add("logo-" + posicionLogo.value);
-    }
-    guardarEstado();
-  };
-
-  const guardarLogo = () => {
-    controlesLogo.style.display = "none";
-    guardarEstado();
-  };
-
-  /* ===== PRODUCTOS ===== */
-  const agregarProducto = () => {
-    const tr = document.createElement("tr");
-    tr.innerHTML = `
-      <td contenteditable="true">Producto</td>
-      <td contenteditable="true">1</td>
-      <td contenteditable="true">$10</td>
-      <td contenteditable="true">$10</td>
-    `;
-    document.querySelector("#tabla tbody").appendChild(tr);
-    guardarEstado();
-  };
-
-  /* ===== GUARDAR PDF ===== */
-  const guardarTicketFinal = () => {
-    const ticketPDF = document.getElementById("ticket");
-
-    const opciones = {
-      margin: 5,
-      filename: "ticket.pdf",
-      image: { type: "jpeg", quality: 0.98 },
-      html2canvas: {
-        scale: 2,
-        useCORS: true,
-        backgroundColor: "#ffffff"
-      },
-      jsPDF: {
-        unit: "mm",
-        format: [80, 250], // ticket térmico
-        orientation: "portrait"
-      }
-    };
-
-    html2pdf()
-      .set(opciones)
-      .from(ticketPDF)
-      .save();
-  };
-
-  /* ===== IMPRIMIR ===== */
-  const imprimir = () => {
+function imprimir(){
     window.print();
-  };
+}
 
-  /* ===== INICIALIZACIÓN ===== */
-  activarEdicion();
-  guardarEstado();
+/* ===== PDF ===== */
+function guardarTicketPDF(){
+    html2pdf().set({
+        margin:0,
+        filename:"ticket_final.pdf",
+        html2canvas:{scale:3},
+        jsPDF:{unit:"mm", format:[100,200]}
+    }).from(ticket).save();
+}
 
-  /* ===== EXPONER FUNCIONES ===== */
-  window.undo = undo;
-  window.redo = redo;
-  window.activarEdicion = activarEdicion;
-  window.abrirLogo = abrirLogo;
-  window.guardarLogo = guardarLogo;
-  window.agregarProducto = agregarProducto;
-  window.guardarTicketFinal = guardarTicketFinal;
-  window.imprimir = imprimir;
-};
+/* ===== IMPORTAR VENTA ===== */
+function recargarProductos(){
 
-export default {
-  loadView
-};
+    fetch("producto.json")
+    .then(res => res.json())
+    .then(productos => {
+
+        const tbody = document.getElementById("tbodyProductos");
+        tbody.innerHTML = "";
+
+        let total = 0;
+
+        productos.forEach(p => {
+            const subtotal = p.cantidad * p.precio;
+            total += subtotal;
+
+            const tr = document.createElement("tr");
+            tr.innerHTML = `
+                <td>${p.nombre}</td>
+                <td>${p.cantidad}</td>
+                <td>$${p.precio}</td>
+                <td>$${subtotal}</td>
+            `;
+            tbody.appendChild(tr);
+        });
+
+        document.getElementById("total").textContent = "Total: $" + total;
+        document.getElementById("pago").textContent = "Pago efectivo: $" + total;
+        document.getElementById("cambio").textContent = "Cambio: $0";
+
+        guardarEstado();
+    })
+    .catch(error => {
+        alert("Error al cargar productos.json");
+        console.error(error);
+    });
+}
