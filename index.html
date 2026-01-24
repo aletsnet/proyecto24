@@ -47,11 +47,15 @@
 						Inventario
 					</a>
 					<div class="dropdown-menu">
+						<a class="dropdown-item" href="javascript:void(0)" onclick="window.renderView('app','view/inventario/productos' , () => { cproductos.loadView(); })">
+							<i class="fa fa-plus-circle"></i>
+							Productos
+						</a>
 						<a class="dropdown-item" href="javascript:void(0)" onclick="window.renderView('app','view/inventario/search', () => { cinventarios.loadView(); })">
 							<i class="fa fa-boxes"></i>
 							Inventarios
 						</a>
-						<a class="dropdown-item" href="javascript:void(0)" onclick="window.renderView('app','view/inventario/categorias')">
+						<a class="dropdown-item" href="javascript:void(0)" onclick="window.renderView('app','view/inventario/categorias', () => { ccategorias.loadView(); })">
 							<i class="fa fa-list"></i>
 							Categorias
 						</a>
