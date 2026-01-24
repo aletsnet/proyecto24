@@ -3,6 +3,7 @@
 let productos = [];
 let total = 0;
 
+/*    RENDER DE LA VENTA*/
 function renderVenta() {
     const tbody = document.getElementById("listaProductos");
     if (!tbody) return;
@@ -28,9 +29,63 @@ function renderVenta() {
     if (totalEl) totalEl.textContent = total.toFixed(2);
 }
 
+/* =========================
+   BUSCAR PRODUCTO EN SQLITE
+========================= */
+async function buscarProducto(codigo) {
+    const sql = `
+        SELECT 
+            id,
+            nombre,
+            precio_unidad
+        FROM productos
+        WHERE codigo_barras = ? OR codigo_sku = ?
+        LIMIT 1
+    `;
+
+    // sqlite viene de window.sqlite (expuesto en main.js)
+    const producto = await window.sqlite.get(sql, [codigo, codigo]);
+
+    return producto || {};
+}
+
+/* =========================
+   AGREGAR PRODUCTO
+========================= */
+async function agregarProductoPorCodigo(codigo) {
+    if (!codigo) return;
+
+    const producto = await buscarProducto(codigo);
+
+    if (!producto) {
+        Swal.fire({
+            icon: 'error',
+            title: 'Producto no encontrado',
+            text: 'El artículo no existe en la base de datos'
+        });
+        return;
+    }
+
+    const existente = productos.find(p => p.id === producto.id);
+
+    if (existente) {
+        existente.cantidad++;
+    } else {
+        productos.push({
+            id: producto.id,
+            nombre: producto.nombre,
+            precio: Number(producto.precio_unidad),
+            cantidad: 1
+        });
+    }
+
+    renderVenta();
+}
+
+/*    COBRO */
 function cobrar(metodoPago) {
     if (productos.length === 0) {
-        alert("No hay productos");
+        Swal.fire('Sin productos', 'Agrega productos antes de cobrar', 'warning');
         return;
     }
 
@@ -45,7 +100,6 @@ function cobrar(metodoPago) {
         cambio: 0
     };
 
-    // evento global (compatible con tu arquitectura)
     window.dispatchEvent(new CustomEvent("venta:finalizada", {
         detail: ticket
     }));
@@ -66,6 +120,9 @@ function cobrarTransferencia() {
     cobrar("TRANSFERENCIA");
 }
 
+/* =========================
+   OTROS
+========================= */
 function eliminarArticulo() {
     productos.pop();
     renderVenta();
@@ -80,10 +137,11 @@ function loadView() {
     renderVenta();
 }
 
-/**
- * 👇 EXPORT DEFAULT OBLIGATORIO
- */
+/* =========================
+   EXPORT DEFAULT (OBLIGATORIO)
+========================= */
 export default {
+    agregarProductoPorCodigo,
     cobrarEfectivo,
     cobrarTarjeta,
     cobrarTransferencia,
