@@ -3,7 +3,7 @@
 	<head>
 		<meta charset="UTF-8" />
 		<link rel="stylesheet" href="/src/css/bootstrap.min.css" />
-		<link rel="stylesheet" href="/src/css/ticket.css" />
+		<!-- <link rel="stylesheet" href="/src/css/ticket.css" /> -->
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<title>Sistema de Punto de Venta - Login</title>
 		
@@ -47,11 +47,15 @@
 						Inventario
 					</a>
 					<div class="dropdown-menu">
+						<a class="dropdown-item" href="javascript:void(0)" onclick="window.renderView('app','view/inventario/productos' , () => { cproductos.loadView(); })">
+							<i class="fa fa-plus-circle"></i>
+							Productos
+						</a>
 						<a class="dropdown-item" href="javascript:void(0)" onclick="window.renderView('app','view/inventario/search', () => { cinventarios.loadView(); })">
 							<i class="fa fa-boxes"></i>
 							Inventarios
 						</a>
-						<a class="dropdown-item" href="javascript:void(0)" onclick="window.renderView('app','view/inventario/categorias')">
+						<a class="dropdown-item" href="javascript:void(0)" onclick="window.renderView('app','view/inventario/categorias', () => { ccategorias.loadView(); })">
 							<i class="fa fa-list"></i>
 							Categorias
 						</a>

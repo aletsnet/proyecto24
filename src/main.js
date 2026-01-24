@@ -12,6 +12,8 @@ import cterminal from './js/controlls/terminal.js';
 //import cload from './js/controlls/load.js';
 
 import cinventarios from './js/controlls/inventarios.js';
+import ccategorias from './js/controlls/categorias.js';
+import cproductos from './js/controlls/productos.js';
 
 import cticket from './js/controlls/ticket.js'
 //import home from './js/controlls/home.js';
@@ -32,6 +34,10 @@ window.sqlite = sqlite;
 window.cdatabase = cdatabase;
 window.cticket = cticket;
 window.cinventarios = cinventarios;
+window.ccategorias = ccategorias;
+window.cproductos = cproductos;
+//window.cload = cload;
+//window.home = home;
 
 window.cterminal = cterminal;
 window.api = api;
