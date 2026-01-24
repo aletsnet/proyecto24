@@ -19,4 +19,34 @@
             }
         ]
     }
+    ,
+    {
+        "table": "catalogos",
+        "data": [
+            {
+                "id": 1,
+                "nombre": "estatus",
+                "orden": 1
+            }
+        ]
+    },
+    {
+        "table": "catalogos_detalles",
+        "data": [
+            {
+                "id": 101,
+                "catalogo": 1,
+                "nombre": "Activo",
+                "valor": "1",
+                "orden": 1
+            },
+            {
+                "id": 102,
+                "catalogo": 1,
+                "nombre": "Inactivo",
+                "valor": "0",
+                "orden": 2
+            }
+        ]
+    }
 ]

@@ -33,7 +33,7 @@
                 { name: "edit", label: '<i class="fas fa-edit"></i>', class: 'btn btn-warning btn-sm me-1', modo: "row" },
                 { name: "delete", label: '<i class="fas fa-trash"></i>', class: 'btn btn-danger btn-sm me-1', modo: "row" },
                 { name: "save", label: '<i class="fas fa-save"></i>', class: 'btn btn-success btn-sm me-1', modo: "row" },
-                { name: "btn_extra", label: '<i class="fas fa-info-circle"></i>', class: 'btn btn-info btn-sm m-1', 
+                { name: "btn_extra", label: '<i class="fas fa-info-circle"></i>ok', class: 'btn btn-info btn-sm m-1', 
                 modo: "row_extra", function: (event) => { other_function(event); } },
             ],
             tableClass: 'trebeca',
