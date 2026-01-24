@@ -42,7 +42,13 @@ window.sqlite = sqlite;
 window.cdatabase = cdatabase;
 window.cterminal = cterminal;
 window.cinventarios = cinventarios;
-
+window.cload = cload;
+window.cusers = cusers;
+window.cticket = cticket;
+window.productos = cproductos;
+window.categorias = ccategorias;
+window.load = cload.load;
+window.ccategorias = ccategorias;
 window.cterminal = cterminal;
 window.api = api;
 //Check database connection
