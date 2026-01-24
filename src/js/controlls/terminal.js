@@ -29,9 +29,7 @@ function renderVenta() {
     if (totalEl) totalEl.textContent = total.toFixed(2);
 }
 
-/* =========================
-   BUSCAR PRODUCTO EN SQLITE
-========================= */
+/*    BUSCAR PRODUCTO EN SQLITE */
 async function buscarProducto(codigo) {
     const sql = `
         SELECT 
@@ -44,20 +42,18 @@ async function buscarProducto(codigo) {
     `;
 
     // sqlite viene de window.sqlite (expuesto en main.js)
-    const producto = await window.sqlite.get(sql, [codigo, codigo]);
+    const producto = await window.sqlite.query(sql, [codigo, codigo]);
 
     return producto || {};
 }
 
-/* =========================
-   AGREGAR PRODUCTO
-========================= */
+/*    AGREGAR PRODUCTO */
 async function agregarProductoPorCodigo(codigo) {
     if (!codigo) return;
 
     const producto = await buscarProducto(codigo);
 
-    if (!producto) {
+    if (typeof producto.codigo_sku == 'undefined') {
         Swal.fire({
             icon: 'error',
             title: 'Producto no encontrado',
@@ -120,9 +116,7 @@ function cobrarTransferencia() {
     cobrar("TRANSFERENCIA");
 }
 
-/* =========================
-   OTROS
-========================= */
+/*    OTROS */
 function eliminarArticulo() {
     productos.pop();
     renderVenta();
@@ -137,9 +131,7 @@ function loadView() {
     renderVenta();
 }
 
-/* =========================
-   EXPORT DEFAULT (OBLIGATORIO)
-========================= */
+/*    EXPORT DEFAULT (OBLIGATORIO) */
 export default {
     agregarProductoPorCodigo,
     cobrarEfectivo,
