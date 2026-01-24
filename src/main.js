@@ -14,6 +14,8 @@ import cusers from './js/controlls/users.js';
 import cinventarios from './js/controlls/inventarios.js';
 import cproductos from './js/controlls/productos.js';
 import ccategorias from './js/controlls/categorias.js';
+import ccategorias from './js/controlls/categorias.js';
+import clogin from './js/controlls/login.js';
 
 import cticket from './js/controlls/ticket.js'
  // Exponer funciones para botones HTML
@@ -42,13 +44,7 @@ window.sqlite = sqlite;
 window.cdatabase = cdatabase;
 window.cterminal = cterminal;
 window.cinventarios = cinventarios;
-window.cload = cload;
-window.cusers = cusers;
-window.cticket = cticket;
-window.productos = cproductos;
-window.categorias = ccategorias;
-window.load = cload.load;
-window.ccategorias = ccategorias;
+
 window.cterminal = cterminal;
 window.api = api;
 //Check database connection
