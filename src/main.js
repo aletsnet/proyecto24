@@ -49,8 +49,8 @@ window.clogin = clogin;
 
 window.cterminal = cterminal;
 window.api = api;
-//Check database connection
-//cdatabase.checkDB();
+//Checa si hay un usuario registrado
+await cload.checkRegister();
 
 
 // Cargar la vista inicial

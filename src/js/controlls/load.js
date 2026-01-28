@@ -46,6 +46,24 @@ const checkSeccion = async () => {
         modal.setAttribute('data-bs-target', '#standardModal');
         document.body.appendChild(modal);
         modal.click();
+    }else{
+        // Si hay usuario en el storage, cargar la vista principal
+        try{
+            let user = await sqlite.query("SELECT * FROM users WHERE id = ?", [user_id]);
+            if(user.length == 0){
+                //limpiar storage
+                localStorage.removeItem('user_id');
+                localStorage.removeItem('name');
+                //volver a checar registro
+                await checkRegister();
+                
+            }
+        }catch(error){
+            console.error("Error al verificar el usuario:", error);
+            localStorage.removeItem('user_id');
+            localStorage.removeItem('name');
+            await checkRegister();
+        }
     }
 }
 
