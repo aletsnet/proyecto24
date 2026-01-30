@@ -14,7 +14,6 @@ import cusers from './js/controlls/users.js';
 import cinventarios from './js/controlls/inventarios.js';
 import cproductos from './js/controlls/productos.js';
 import ccategorias from './js/controlls/categorias.js';
-import ccategorias from './js/controlls/categorias.js';
 import clogin from './js/controlls/login.js';
 
 import cticket from './js/controlls/ticket.js'
@@ -44,8 +43,13 @@ window.sqlite = sqlite;
 window.cdatabase = cdatabase;
 window.cterminal = cterminal;
 window.cinventarios = cinventarios;
-
+window.cproductos = cproductos;
+window.ccategorias = ccategorias;
+window.clogin = clogin;
 window.cterminal = cterminal;
+window.cload = cload;
+window.cusers = cusers;
+window.cticket = cticket;
 window.api = api;
 //Check database connection
 //cdatabase.checkDB();
