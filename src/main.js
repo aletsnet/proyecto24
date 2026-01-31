@@ -7,6 +7,7 @@ import sqlite from './js/sqlite.js';
 import '@fortawesome/fontawesome-free/css/all.css'
 
 //controlles
+import cempleados from './js/controlls/empleados.js';
 import cdatabase from './js/controlls/database.js';
 import cterminal from './js/controlls/terminal.js';
 import cload from './js/controlls/load.js';
@@ -42,6 +43,16 @@ window.sqlite = sqlite;
 window.cdatabase = cdatabase;
 window.cterminal = cterminal;
 window.cinventarios = cinventarios;
+window.cusers = cusers;
+window.cload = cload;
+window.cticket = cticket;
+window.cterminal = cterminal;
+window.api = api;
+window.cempleados = cempleados;
+
+
+//Check database connection
+//cdatabase.checkDB();
 window.cload = cload;
 window.cusers = cusers;
 window.ccategorias = ccategorias;
