@@ -2,7 +2,7 @@ const checkRegister =  async () => {
     //valida si en el storage local hay un usuario registrado
     let name = localStorage.getItem("name");
     if(name){
-        console.log("Usuario en storage local: " + name);
+        checkSeccion();
         return;
     }else{
         //valida la base de datos}
@@ -19,7 +19,7 @@ const checkRegister =  async () => {
             
         } else {
             // Si hay usuarios registrados, cargar la vista de login
-            window.renderView('modalCuerpo', 'view/login');
+            window.renderView('modalCuerpo', 'view/users/login', () => { cusers.viewLoad(); });
         }
 
         // Abrir el modal
@@ -34,6 +34,40 @@ const checkRegister =  async () => {
     }
 }
 
+const checkSeccion = async () => {
+    let user_id = localStorage.getItem("user_id");
+    if(!user_id){
+        // Si no hay usuario en el storage, cargar la vista de login
+        window.renderView('modalCuerpo', 'view/users/login', () => { clogin.viewLoad(); });
+        // Abrir el modal
+        const modal = document.createElement('button');
+        modal.setAttribute('type', 'button');
+        modal.setAttribute('data-bs-toggle', 'modal');
+        modal.setAttribute('data-bs-target', '#standardModal');
+        document.body.appendChild(modal);
+        modal.click();
+    }else{
+        // Si hay usuario en el storage, cargar la vista principal
+        try{
+            let user = await sqlite.query("SELECT * FROM users WHERE id = ?", [user_id]);
+            if(user.length == 0){
+                //limpiar storage
+                localStorage.removeItem('user_id');
+                localStorage.removeItem('name');
+                //volver a checar registro
+                await checkRegister();
+                
+            }
+        }catch(error){
+            console.error("Error al verificar el usuario:", error);
+            localStorage.removeItem('user_id');
+            localStorage.removeItem('name');
+            await checkRegister();
+        }
+    }
+}
+
 export default {
-    checkRegister
+    checkRegister,
+    checkSeccion
 }

@@ -1,5 +1,6 @@
 // src/js/controlls/terminal.js
 
+
 let productos = [];
 let total = 0;
 
@@ -32,20 +33,17 @@ function renderVenta() {
 /*    BUSCAR PRODUCTO EN SQLITE */
 async function buscarProducto(codigo) {
     const sql = `
-        SELECT 
-            id,
-            nombre,
-            precio_unidad
+        SELECT id, nombre, precio_unidad
         FROM productos
         WHERE codigo_barras = ? OR codigo_sku = ?
         LIMIT 1
     `;
 
-    // sqlite viene de window.sqlite (expuesto en main.js)
-    const producto = await window.sqlite.query(sql, [codigo, codigo]);
+    const result = await window.sqlite.query(sql, [codigo, codigo]);
 
-    return producto || {};
+    return (Array.isArray(result) && result.length > 0) ? result[0] : null;
 }
+
 
 /*    AGREGAR PRODUCTO */
 async function agregarProductoPorCodigo(codigo) {
@@ -53,7 +51,7 @@ async function agregarProductoPorCodigo(codigo) {
 
     const producto = await buscarProducto(codigo);
 
-    if (typeof producto.codigo_sku == 'undefined') {
+    if (!producto) {
         Swal.fire({
             icon: 'error',
             title: 'Producto no encontrado',
@@ -78,43 +76,65 @@ async function agregarProductoPorCodigo(codigo) {
     renderVenta();
 }
 
+
 /*    COBRO */
-function cobrar(metodoPago) {
+async function cobrar(metodoPagoId) {
     if (productos.length === 0) {
         Swal.fire('Sin productos', 'Agrega productos antes de cobrar', 'warning');
         return;
     }
 
-    const ticket = {
-        fecha: new Date().toLocaleString(),
-        cajero: "Usuario demo",
-        caja: "Caja 1",
-        metodoPago,
-        productos: [...productos],
-        total,
-        pago: total,
-        cambio: 0
-    };
+    const corteId = localStorage.getItem("corte_activo");
 
-    window.dispatchEvent(new CustomEvent("venta:finalizada", {
-        detail: ticket
-    }));
+    if (!corteId) {
+        Swal.fire('Caja cerrada', 'No hay un corte activo', 'error');
+        return;
+    }
+
+    // 1️⃣ Insertar venta
+    const venta = await insert("ventas", {
+        total: total,
+        unidades: productos.reduce((s, p) => s + p.cantidad, 0),
+        cliente: 1,
+        corte: corteId,
+        sucursal: 1,
+        tipo: metodoPagoId, // ID de catalogos_detalles
+        status: 1,
+        user: 1
+    });
+
+    const ventaId = venta.last_insert_id;
+
+    // 2️⃣ Insertar detalle
+    for (const p of productos) {
+        await insert("ventas_detalles", {
+            cantidad: p.cantidad,
+            precio: p.precio,
+            precio_vendido: p.precio,
+            venta: ventaId,
+            inventario: p.id
+        });
+    }
 
     productos = [];
     renderVenta();
+
+    Swal.fire('Venta registrada', 'Cobro exitoso', 'success');
 }
 
 function cobrarEfectivo() {
-    cobrar("EFECTIVO");
+    cobrar(1); // ID EFECTIVO
 }
 
 function cobrarTarjeta() {
-    cobrar("TARJETA");
+    cobrar(2); // ID TARJETA
 }
 
 function cobrarTransferencia() {
-    cobrar("TRANSFERENCIA");
+    cobrar(3); // ID TRANSFERENCIA
 }
+
+
 
 /*    OTROS */
 function eliminarArticulo() {
@@ -134,6 +154,7 @@ function loadView() {
 /*    EXPORT DEFAULT (OBLIGATORIO) */
 export default {
     agregarProductoPorCodigo,
+    cobrar,
     cobrarEfectivo,
     cobrarTarjeta,
     cobrarTransferencia,

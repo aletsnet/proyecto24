@@ -13,6 +13,8 @@ import cterminal from './js/controlls/terminal.js';
 import cload from './js/controlls/load.js';
 import cusers from './js/controlls/users.js';
 import cinventarios from './js/controlls/inventarios.js';
+import ccategorias from './js/controlls/categorias.js';
+import clogin from './js/controlls/login.js';
 
 import cticket from './js/controlls/ticket.js'
  // Exponer funciones para botones HTML
@@ -51,6 +53,15 @@ window.cempleados = cempleados;
 
 //Check database connection
 //cdatabase.checkDB();
+window.cload = cload;
+window.cusers = cusers;
+window.ccategorias = ccategorias;
+window.clogin = clogin;
+
+window.cterminal = cterminal;
+window.api = api;
+//Checa si hay un usuario registrado
+await cload.checkRegister();
 
 
 // Cargar la vista inicial
