@@ -17,7 +17,6 @@ let data = [];
             let row = item;//data.find(item => item.id == tr.dataset.id);
             let row_search = await sqlite.query(`SELECT * FROM categorias WHERE id = ?`,  [item_id]);
             let _item = {
-                id: item_id,
                 categoria: row.categoria, 
                 descripcion: row.descripcion,
                 status: row.status,

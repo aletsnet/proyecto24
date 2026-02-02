@@ -14,8 +14,9 @@ import cusers from './js/controlls/users.js';
 import cinventarios from './js/controlls/inventarios.js';
 import ccategorias from './js/controlls/categorias.js';
 import clogin from './js/controlls/login.js';
+import cticket from './js/controlls/ticket.js';
+import cproductos from './js/controlls/productos.js';
 
-import cticket from './js/controlls/ticket.js'
  // Exponer funciones para botones HTML
     window.undo = () => cticket.undo();
     window.redo = () => cticket.redo();
@@ -46,8 +47,8 @@ window.cload = cload;
 window.cusers = cusers;
 window.ccategorias = ccategorias;
 window.clogin = clogin;
-
-window.cterminal = cterminal;
+window.cticket = cticket;
+window.cproductos = cproductos;
 window.api = api;
 //Checa si hay un usuario registrado
 await cload.checkRegister();
