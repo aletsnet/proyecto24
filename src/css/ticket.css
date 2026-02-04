@@ -1,199 +1,299 @@
-html, body{
-    margin:0;
-    height:100%;
-    overflow:hidden;
-    font-family: Arial, sans-serif;
-    background:#535353;
+/* ======================================================
+   🔥 RESET TOTAL
+====================================================== */
+*,
+*::before,
+*::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
-/* ===== CONTENEDOR GENERAL ===== */
-.contenedor{
-    display:flex;
-    height:100vh;
+/* ======================================================
+   🔥 BODY (Limpieza de bordes)
+====================================================== */
+html, body {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    font-family: 'Segoe UI', Arial, sans-serif;
+    background: #535353;
 }
 
-/* ===== PANEL LATERAL ===== */
-.panel{
-    width:500px;
-    background:#000;
-    color:#cc0a0a;
-    padding:30px;
-    padding-top:60px;
-    display:flex;
-    flex-direction:column;
-    gap:14px;
-    position:fixed;
-    left:0;
-    top:72px;
-    height:calc(100vh - 72px);
-    box-sizing:border-box;
-    overflow-y:auto;
+
+/* ======================================================
+   🔥 VARIABLES EDITABLES
+====================================================== */
+:root {
+    --distancia-techo: 72px;
+
+    --panel-ancho: 400px;
+
+    --ticket-ancho: 300px;
+    --ticket-x: center;
+    --ticket-y: center;
+
+    --panel-padding: 30px;
+    --ticket-padding: 25px;
 }
 
-.panel button{
-    padding:16px;
-    border:none;
-    border-radius:18px;
-    background:#4d4a4a9d;
-    color:#fff;
-    cursor:pointer;
-    transition:all .2s ease;
+
+/* ======================================================
+   🔥 CONTENEDOR PRINCIPAL
+====================================================== */
+.contenedor {
+    position: fixed;
+    top: var(--distancia-techo);
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    height: calc(100vh - var(--distancia-techo));
 }
 
-.panel button:hover{
-    transform:scale(1.03);
-    opacity:.9;
+
+/* ======================================================
+   🔥 PANEL NEGRO (TOTALMENTE PEGADO A LA IZQUIERDA)
+====================================================== */
+.panel {
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+
+    width: var(--panel-ancho);
+    height: 100%;
+
+    background: #000;
+    color: #fff;
+
+    padding: var(--panel-padding);
+
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+
+    border-right: 1px solid #333;
+
+    /* quitamos separación visual */
+    box-shadow: none;
+
+    overflow-y: auto;
+    z-index: 10;
 }
 
-#btnEditar{ background:#00dfb2; }
-#btnProducto{ background:#b100f7; }
-#btnGuardar{ background:#ff7700; }
-#btnImprimir{ background:#ff1900; }
-
-.grupo-undo-redo{
-    display:flex;
-    justify-content:space-between;
-    margin-bottom:10px;
+/* Scroll panel */
+.panel::-webkit-scrollbar {
+    width: 10px;
+}
+.panel::-webkit-scrollbar-thumb {
+    background: #333;
+    border-radius: 40px;
 }
 
-.btn-undo-redo{
-    width:120px;
-    background:transparent;
-    border:none;
-    color:#fff;
-    font-size:18px;
-    cursor:pointer;
+.panel h2 {
+    text-align: center;
+    color: #0effd7;
+    margin-bottom: 10px;
 }
 
-/* ===== AREA TICKET ===== */
-.area-ticket{
-    margin-left:550px;
-    width:calc(100% - 500px);
-    height:100vh;
-    background:#afa7a7;
-    display:flex;
-    justify-content:center;
-    align-items:flex-start;
-    overflow:hidden;
+
+/* ======================================================
+   🔥 BOTONES
+====================================================== */
+.panel button {
+    padding: 12px;
+    border: none;
+    border-radius: 10px;
+    font-weight: bold;
+    cursor: pointer;
+    color: #fff;
+    transition: .2s;
+    width: 100%;
 }
 
-.scroll-ticket{
-    width:380px;
-    height:100%;
-    overflow-y:auto;
-    padding:20px 0;
+.panel button:hover {
+    filter: brightness(1.2);
+    transform: translateY(-2px);
 }
 
-/* ===== TICKET ===== */
-.ticket{
-    width:300px;
-    background:#ffffff;
-    color:#000000;
-    padding:15px;
-    margin:0 auto;
-    box-shadow:0 0 10px rgba(0,0,0,.2);
-    position:relative;
-    font-size:14px;
-    line-height:1.4;
+#btnEditar   { background: #00dfb2; color: #000; }
+#btnProducto { background: #b100f7; }
+#btnGuardar  { background: #ff7700; }
+#btnImprimir { background: #ff1900; }
+
+.grupo-undo-redo {
+    display: flex;
+    gap: 8px;
 }
 
-/* ===== LOGO ===== */
-.logo{
-    max-width:120px;
-    width:100%;
-    height:auto;
-    display:block;
-    margin:0 auto 2px auto; /* espacio mínimo */
-    filter: grayscale(100%) contrast(120%);
+.btn-undo-redo {
+    flex: 1;
+    background: #444 !important;
 }
 
-/* ===== TEXTO DEL TICKET ===== */
-.ticket p{
-    margin:4px 0;
+
+/* ======================================================
+   🔥 ÁREA GRIS (OCUPA EL RESTO DEL ESPACIO)
+====================================================== */
+.area-ticket {
+    margin-left: var(--panel-ancho);
+    width: calc(100% - var(--panel-ancho));
+
+    height: 100%;
+
+    background: #6e6e6e;
+
+    display: flex;
+    justify-content: var(--ticket-x);
+    align-items: var(--ticket-y);
+
+    padding: 35px;
+
+    overflow-y: auto;
+    overflow-x: hidden;
+
+    position: relative;
+
+    scrollbar-color: #000000 #ffffff;
+    scrollbar-width: thin;
 }
 
-/* 🔥 CLAVE: quitar espacio superior del primer texto */
-.ticket p:first-of-type{
-    margin-top:0;
+/* Scroll Chrome */
+.area-ticket::-webkit-scrollbar {
+    width: 10px;
+}
+.area-ticket::-webkit-scrollbar-track {
+    background: #535353;
+}
+.area-ticket::-webkit-scrollbar-thumb {
+    background: #3a3a3a;
+    border-radius: 5px;
 }
 
-.ticket hr{
-    border:none;
-    border-top:1px dashed #000000;
-    margin:8px 0;
+
+/* ======================================================
+   🔥 TICKET
+====================================================== */
+.ticket {
+    width: var(--ticket-ancho);
+    min-height: 200px;
+
+    background: #fff;
+    color: #000;
+
+    padding: var(--ticket-padding);
+
+    font-size: 13px;
+    line-height: 1.4;
+
+    box-shadow: 0 0 25px rgba(0,0,0,.4);
 }
 
-/* ===== TABLA DEL TICKET ===== */
-.ticket table{
-    width:100%;
-    border-collapse:collapse;
-    font-size:13px;
+
+/* ======================================================
+   🔥 LOGO
+====================================================== */
+.logo {
+    display: block;
+    width: 120px;
+    height: auto;
+    max-width: 100%;
+    margin: 0 auto 1px;
+    object-fit: contain;
 }
 
-.ticket th{
-    text-align:left;
-    font-weight:bold;
-    border-bottom:1px solid #000;
+
+/* ======================================================
+   🔥 TABLAS
+====================================================== */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 12px;
+    margin-bottom: 10px;
 }
 
-.ticket td{
-    border-bottom:1px dashed #aaa;
-    padding:3px 0;
+th, td {
+    border-bottom: 1px dashed #ccc;
+    padding: 6px 0;
 }
 
-/* ===== TOTALES ===== */
-#total{
-    font-size:16px;
+
+/* ======================================================
+   🔥 MODO EDICIÓN
+====================================================== */
+[contenteditable="true"] {
+    outline: 2px dashed #00dfb2;
+    background: #f9fffb;
+    padding: 4px;
 }
 
-#pago,
-#cambio{
-    font-size:13px;
+
+/* ======================================================
+   🔥 TOAST
+====================================================== */
+#mensajeFlotante {
+    position: absolute;
+    top: 20px;
+    right: 25px;
+
+    background: #1a1a1a;
+    color: #00dfb2;
+
+    padding: 14px 24px;
+    border-radius: 10px;
+
+    border: 1px solid #00dfb2;
+
+    box-shadow: 0 8px 20px rgba(0,0,0,.4);
+
+    opacity: 0;
+    visibility: hidden;
+
+    transform: translateX(30px);
+    transition: .35s;
+
+    z-index: 999;
+    pointer-events: none;
 }
 
-/* ===== EDICIÓN ===== */
-[contenteditable="true"]{
-    outline:1px dashed #00dfb2;
-    padding:2px;
+#mensajeFlotante.show-toast {
+    opacity: 1;
+    visibility: visible;
+    transform: translateX(0);
 }
 
-/* ===== SCROLL BAR ===== */
-.scroll-ticket::-webkit-scrollbar{
-    width:6px;
-}
-.scroll-ticket::-webkit-scrollbar-thumb{
-    background:#777;
-    border-radius:10px;
-}
 
-/* ===== IMPRESIÓN ===== */
-@media print{
-    body *{
-        visibility:hidden;
+/* ======================================================
+   🔥 IMPRESIÓN (NO AFECTADA)
+====================================================== */
+@media print {
+
+    .panel,
+    #mensajeFlotante {
+        display: none !important;
     }
 
-    .ticket,
-    .ticket *{
-        visibility:visible;
-        color:#000;
+    .contenedor {
+        position: relative !important;
+        top: 0 !important;
+        height: auto !important;
     }
 
-    .ticket{
-        position:absolute;
-        left:0;
-        top:0;
-        width:100%;
-        box-shadow:none;
-        font-size:12px;
+    .area-ticket {
+        margin: 0 !important;
+        width: 100% !important;
+        padding: 0 !important;
+        background: none !important;
+        display: block !important;
+        overflow: visible !important;
     }
 
-    .logo{
-        width:180px;
-        margin-bottom:2px;
-        filter: grayscale(100%);
-    }
-
-    .ticket p:first-of-type{
-        margin-top:0;
+    .ticket {
+        box-shadow: none !important;
+        margin: 0 auto !important;
+        width: 100% !important;
+        max-width: 400px;
     }
 }

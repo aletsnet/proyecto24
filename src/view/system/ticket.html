@@ -1,96 +1,92 @@
 <!DOCTYPE html>
+
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Ticketfinal</title>
-
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modo Edición - Ticket</title>
 
-    <!-- CSS -->
-    <link rel="stylesheet" href="../../css/ticket.css">
+```
+<link rel="stylesheet" href="../../css/ticket.css">
+```
+
 </head>
 
 <body>
 
 <div class="contenedor">
 
-    <!-- ===== PANEL LATERAL ===== -->
-    <div class="panel">
+```
+<!-- 🔥 PANEL IZQUIERDO -->
+<div class="panel">
+    <h2>Modo Edición</h2>
 
-        <div class="grupo-undo-redo">
-            <button class="btn-undo-redo" onclick="undo()">←</button>
-            <button class="btn-undo-redo" onclick="redo()">→</button>
-        </div>
-
-        <button id="btnEditar" onclick="activarEdicion()">Editar ticket 📝</button>
-        <button id="btnProducto" onclick="recargarProductos()">Importar venta 💾</button>
-        <button id="btnGuardar" onclick="guardarTicketPDF()">Guardar PDF 📄</button>
-        <button id="btnImprimir" onclick="imprimir()">Imprimir 🖨️</button>
-
+    <div class="grupo-undo-redo">
+        <button class="btn-undo-redo" onclick="undo()">↺</button>
+        <button class="btn-undo-redo" onclick="redo()">↻</button>
     </div>
 
-    <!-- ===== AREA TICKET ===== -->
-    <div class="area-ticket">
-        <div class="scroll-ticket">
-            <div class="ticket" id="ticket">
+    <button id="btnEditar" onclick="activarEdicion()">📝 Editar Ticket</button>
+    <button id="btnProducto" onclick="recargarProductos()">🛒 Importar Venta</button>
+    <button id="btnGuardar" onclick="guardarTicketPDF()">💾 Guardar PDF</button>
+    <button id="btnImprimir" onclick="imprimir()">🖨️ Imprimir</button>
+</div>
 
-                <!-- LOGO -->
-                <img
-                    id="logo"
-                    class="logo"
-                    src="../../../src/assets/logoterminado.png"
-                    alt="Logo">
 
-    
-                <!-- CONTENIDO EDITABLE -->
-                <div id="contenido" contenteditable="false">
+<!-- 🔥 ÁREA GRIS -->
+<div class="area-ticket">
 
-                    <p style="text-align:center;">¡Bienvenido!</p>
+    <!-- ✅ TOAST AHORA ESTÁ EN EL LUGAR CORRECTO -->
+    <div id="mensajeFlotante">⏳ Procesando...</div>
 
-                    <p>Fecha: <span id="fecha"></span></p>
-                    <p>Atiende:</p>
-                    <p>Caja:</p>
 
-                    <hr>
+    <!-- 🔥 TICKET -->
+    <div class="ticket" id="ticket">
 
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Producto</th>
-                                <th>Cant</th>
-                                <th>Precio</th>
-                                <th>Subtotal</th>
-                            </tr>
-                        </thead>
-                        <tbody id="tbodyProductos">
-                            <!-- Productos desde JS -->
-                        </tbody>
-                    </table>
+        <img src="../../../src-tauri/icons/image.png" class="logo" alt="Logo">
 
-                    <hr>
+        <div id="contenido" contenteditable="false">
 
-                    <p style="text-align:right;">
-                        <b id="total">Total: $0</b>
-                    </p>
-                    <p id="pago">Pago efectivo: $0</p>
-                    <p id="cambio">Cambio: $0</p>
+            <p style="text-align:center;font-weight:bold;">¡BIENVENIDO!</p>
 
-                    <hr>
+            <p style="font-size:12px;">Fecha: <span id="fecha"></span></p>
+            <p style="font-size:12px;">Atiende: Admin</p>
+            <p style="font-size:12px;">Caja: 001</p>
 
-                    <p style="text-align:center;">¡Gracias por su compra! 😊</p>
+            <hr>
 
-                </div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Producto</th>
+                        <th>Cant</th>
+                        <th>Precio</th>
+                        <th>Sub.</th>
+                    </tr>
+                </thead>
+                <tbody id="tbodyProductos"></tbody>
+            </table>
 
+            <div style="text-align:right;">
+                <p><b id="total">Total: $0.00</b></p>
+                <p id="pago">Pago efectivo: $0.00</p>
+                <p id="cambio">Cambio: $0.00</p>
             </div>
+
+            <hr>
+
+            <p style="text-align:center;font-size:11px;">
+                ¡Gracias por su compra!<br>
+                vuelva pronto!
+            </p>
+
         </div>
     </div>
+</div>
+```
 
 </div>
 
-<!-- LIBRERÍA PDF -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
-
-<!-- JS -->
 <script src="../../js/controlls/ticket.js"></script>
 
 </body>
