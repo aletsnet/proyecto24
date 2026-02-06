@@ -35,6 +35,7 @@ let data = [];
             _item['codigo_barras'] = row.codigo_barras;
             _item['precio_unidad'] = row.precio_unidad;
             _item['precio_mayoreo'] = row.precio_mayoreo;
+            _item['categoria'] = row.categoria;
             _item['status'] = 101; //Activo
             _item['user'] = localStorage.getItem('user_id'); //usuario activo
             
@@ -51,7 +52,6 @@ let data = [];
             row_inventario['stock'] = row.stock;
             row_inventario['precio_unidad'] = row.precio_unidad;
             row_inventario['precio_mayoreo'] = row.precio_mayoreo;
-            row_inventario['categoria'] = row.categoria;
             row_inventario['sucursal'] = 1;
             row_inventario['status'] = 101; //Activo
             row_inventario['user'] = localStorage.getItem('user_id'); //usuario activo
