@@ -118,12 +118,12 @@
             table: {
                 cols: [
                     {label: 'Factura', field: 'factura', type : 'text'},
-                    {label: 'Total', field: 'total', type: 'money'},
-                    {label: 'Unidades', field: 'unidades', type: 'number'},
-                    {label: 'Cliente', field: 'cliente', type: 'select',  options: lclientes},
-                    {label: 'Tipo', field: 'tipo', type: 'select',  options: ltipos},
+                    {label: 'Total', field: 'total', type: 'money', edit: false},
+                    {label: 'Unidades', field: 'unidades', type: 'number', edit: false},
+                    {label: 'Cliente', field: 'cliente', type: 'select',  options: lclientes, edit: false},
+                    {label: 'Tipo', field: 'tipo', type: 'select',  options: ltipos, edit: false},
                     {label: 'Status', field: 'status', type: 'select',  options: lstatus},
-                    {label: '*', field: 'actions', type: 'button', buttons: ["add", "edit", "delete", "save"]}
+                    {label: '*', field: 'actions', type: 'button', buttons: ["edit", "delete", "save"]}
                 ],
                 footer: {
                     label: 'Total de registros:',

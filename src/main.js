@@ -10,6 +10,7 @@ import '@fortawesome/fontawesome-free/css/all.css'
 import cempleados from './js/controlls/empleados.js';
 import cdatabase from './js/controlls/database.js';
 import cterminal from './js/controlls/terminal.js';
+import cventas from './js/controlls/ventas.js';
 import cload from './js/controlls/load.js';
 import cusers from './js/controlls/users.js';
 import cinventarios from './js/controlls/inventarios.js';
@@ -43,6 +44,7 @@ window.renderView = renderView;
 window.sqlite = sqlite;
 window.cdatabase = cdatabase;
 window.cterminal = cterminal;
+window.cventas = cventas;
 window.cinventarios = cinventarios;
 window.cusers = cusers;
 window.cload = cload;
