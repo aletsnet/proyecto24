@@ -48,5 +48,17 @@
                 "orden": 2
             }
         ]
+    },
+    {
+        "table": "sucursales",
+        "data":[
+            {
+                "id": 1,
+                "nombre": "Local",
+                "direccion": "",
+                "telefono": "",
+                "status": 101
+            }
+        ]
     }
 ]

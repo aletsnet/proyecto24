@@ -19,7 +19,7 @@
 
     const btn_save = async (event, item) => {
         const tr = event.target.closest('tr');
-        const item_id = tr.dataset.id;
+        let item_id = tr.dataset.id;
         let row = item;//data.find(item => item.id == tr.dataset.id);
         let row_search = await sqlite.query(`SELECT * FROM productos WHERE id = ?`,  [item_id]);
         let _item = {};
@@ -35,8 +35,12 @@
             await sqlite.update('productos', _item, 'id = ?', [item_id]);
         }else{
             _item['created_at'] = Date.now()
-            await sqlite.insert('productos', _item);
+            let r = await sqlite.insert('productos', _item);
+            item_id = r.lastInsertId ?? 0;
         }
+
+        console.log(item_id);
+        
 
         Swal.fire({
             title: 'Producto guardado',
