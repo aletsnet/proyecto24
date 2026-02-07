@@ -35,7 +35,7 @@
 							<i class="fa fa-shopping-basket"></i>
 							Terminal de Ventas
 						</a>
-						<a class="dropdown-item" href="javascript:void(0)" onclick="window.renderView('app','view/ventas/search')">
+						<a class="dropdown-item" href="javascript:void(0)" onclick="window.renderView('app','view/ventas/search', () => { cventas.loadView(); })">
 							<i class="fas fa-cogs"></i>
 							Historial de Ventas
 						</a>
@@ -70,7 +70,7 @@
 							<i class=""></i>
 							Realizar Corte
 						</a>
-						<a class="dropdown-item" href="javascript:void(0)" onclick="window.renderView('app','view/corte/historial')">
+						<a class="dropdown-item" href="javascript:void(0)" onclick="window.renderView('app','view/cortes/search', () => { ccortes.loadView(); })">
 							<i class="fas fa-cogs"></i>
 							Historial de Cortes
 						</a>

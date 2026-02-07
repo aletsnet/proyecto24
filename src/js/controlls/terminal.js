@@ -1,5 +1,7 @@
 // src/js/controlls/terminal.js
 
+import sqlite from "../sqlite";
+
 
 let productos = [];
 let total = 0;
@@ -33,9 +35,10 @@ function renderVenta() {
 /*    BUSCAR PRODUCTO EN SQLITE */
 async function buscarProducto(codigo) {
     const sql = `
-        SELECT id, nombre, precio_unidad
-        FROM productos
-        WHERE codigo_barras = ? OR codigo_sku = ?
+        SELECT p.id, p.nombre, i.precio_unidad, i.id as inventario_id, i.stock
+        FROM productos p
+        JOIN inventarios i ON p.id = i.producto
+        WHERE (p.codigo_barras = ? OR p.codigo_sku = ?) AND i.sucursal = 1 AND i.stock > 0 AND i.deleted_at IS NULL
         LIMIT 1
     `;
 
@@ -55,7 +58,7 @@ async function agregarProductoPorCodigo(codigo) {
         Swal.fire({
             icon: 'error',
             title: 'Producto no encontrado',
-            text: 'El artículo no existe en la base de datos'
+            text: 'El artículo no existe en la base de datos o no hay stock'
         });
         return;
     }
@@ -63,13 +66,22 @@ async function agregarProductoPorCodigo(codigo) {
     const existente = productos.find(p => p.id === producto.id);
 
     if (existente) {
+        if (existente.cantidad + 1 > producto.stock) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Stock insuficiente',
+                text: 'No hay suficiente stock para este producto'
+            });
+            return;
+        }
         existente.cantidad++;
     } else {
         productos.push({
             id: producto.id,
             nombre: producto.nombre,
             precio: Number(producto.precio_unidad),
-            cantidad: 1
+            cantidad: 1,
+            inventario_id: producto.inventario_id
         });
     }
 
@@ -92,28 +104,44 @@ async function cobrar(metodoPagoId) {
     }
 
     // 1️⃣ Insertar venta
-    const venta = await insert("ventas", {
+    const venta = await sqlite.insert("ventas", {
         total: total,
         unidades: productos.reduce((s, p) => s + p.cantidad, 0),
         cliente: 1,
         corte: corteId,
         sucursal: 1,
         tipo: metodoPagoId, // ID de catalogos_detalles
-        status: 1,
-        user: 1
+        status: 101,
+        user: localStorage.getItem('user_id')
     });
 
-    const ventaId = venta.last_insert_id;
+    const ventaId = venta.lastInsertId; // ID de la venta recién creada
 
     // 2️⃣ Insertar detalle
     for (const p of productos) {
-        await insert("ventas_detalles", {
+        await sqlite.insert("ventas_detalles", {
             cantidad: p.cantidad,
             precio: p.precio,
             precio_vendido: p.precio,
             venta: ventaId,
-            inventario: p.id
+            inventario: p.inventario_id
         });
+    }
+
+    // 3️⃣ Actualizar inventario y movimientos
+    for (const p of productos) {
+        const currentStock = await sqlite.query("SELECT stock FROM inventarios WHERE id = ?", [p.inventario_id]);
+        const newStock = currentStock[0].stock - p.cantidad;
+        await sqliteupdate("inventarios", { stock: newStock }, "id = ?", [p.inventario_id]);
+/*
+        await insert("inventarios_movimientos", {
+            inventario: p.inventario_id,
+            tipo: "salida",
+            cantidad: p.cantidad,
+            precio: p.precio,
+            user: 1,
+            corte: corteId
+        });*/
     }
 
     productos = [];
@@ -123,15 +151,15 @@ async function cobrar(metodoPagoId) {
 }
 
 function cobrarEfectivo() {
-    cobrar(1); // ID EFECTIVO
+    cobrar(201); // ID EFECTIVO
 }
 
 function cobrarTarjeta() {
-    cobrar(2); // ID TARJETA
+    cobrar(202); // ID TARJETA
 }
 
 function cobrarTransferencia() {
-    cobrar(3); // ID TRANSFERENCIA
+    cobrar(203); // ID TRANSFERENCIA
 }
 
 
