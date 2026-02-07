@@ -8,25 +8,8 @@ import '@fortawesome/fontawesome-free/css/all.css'
 import '../src/css/ticket.css';
 
 //controlles
-import cempleados from './js/controlls/empleados.js';
 import cdatabase from './js/controlls/database.js';
-import cterminal from './js/controlls/terminal.js';
-import cload from './js/controlls/load.js';
-import cusers from './js/controlls/users.js';
-import cinventarios from './js/controlls/inventarios.js';
-import ccategorias from './js/controlls/categorias.js';
-import clogin from './js/controlls/login.js';
-import cticket from './js/controlls/ticket.js';
-import cproductos from './js/controlls/productos.js';
-
- // Exponer funciones para botones HTML
-    window.undo = () => cticket.undo();
-    window.redo = () => cticket.redo();
-    window.activarEdicion = () => cticket.activarEdicion();
-    window.imprimir = () => cticket.imprimir();
-    window.guardarTicketPDF = () => cticket.guardarTicketPDF();
-
-
+import cempleados from './js/controlls/empleados.js';
 //import home from './js/controlls/home.js';
 
 // Configuración de Axios para futuras peticiones al backend
@@ -66,6 +49,7 @@ window.api = api;
 //Checa si hay un usuario registrado
 await cload.checkRegister();
 
+window.cempleados = cempleados;
 
 // Cargar la vista inicial
 window.renderView('app', 'view/home');

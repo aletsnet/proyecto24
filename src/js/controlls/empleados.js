@@ -1,5 +1,8 @@
 import trebeca from "../trebeca";
 
+// =====================
+// Datos iniciales
+// =====================
 let data = [
     { id: "001", name: "Manuel Ramirez", email: "manuel@empresa.com", role: "Administrador", active: true },
     { id: "002", name: "Abel", email: "abel@empresa.com", role: "Cajero", active: true },
@@ -7,6 +10,9 @@ let data = [
     { id: "004", name: "Leonel Ramirez", email: "leonel@empresa.com", role: "Bodeguero", active: true }
 ];
 
+// =====================
+// Configuración Trebeca
+// =====================
 let config = {
     search: {
         value: '',
@@ -24,23 +30,31 @@ let config = {
     tableClass: 'tablaEmpleados'
 };
 
-// 🔹 Cargar desde localStorage
+// =====================
+// Cargar desde localStorage
+// =====================
 const empleadosGuardados = JSON.parse(localStorage.getItem('empleados'));
 if (empleadosGuardados) {
     data.splice(0, data.length, ...empleadosGuardados);
 }
 
-// 🔹 Renderizar tabla
+// =====================
+// Renderizar tabla
+// =====================
 function cargarTabla() {
     trebeca(config, data);
 }
 
+// =====================
+// Guardar cambios
+// =====================
 function guardarCambios() {
     localStorage.setItem('empleados', JSON.stringify(data));
 }
 
-
-// 🔹 Actualizar dato
+// =====================
+// Actualizar dato
+// =====================
 function actualizarDato(index, propiedad, valor) {
     data[index][propiedad] =
         propiedad === 'active'
@@ -50,7 +64,9 @@ function actualizarDato(index, propiedad, valor) {
     cargarTabla();
 }
 
-// 🔹 Agregar empleado
+// =====================
+// Agregar empleado
+// =====================
 function agregarEmpleado() {
     data.push({
         id: Date.now().toString(),
@@ -64,6 +80,9 @@ function agregarEmpleado() {
     cargarTabla();
 }
 
+// =====================
+// Inicializar vista
+// =====================
 const loadView = () => {
     const btnAgregar = document.getElementById('btnAgregar');
 
@@ -76,7 +95,9 @@ const loadView = () => {
     cargarTabla();
 };
 
-
+// =====================
+// Export
+// =====================
 export default {
     loadView,
     guardarCambios,
