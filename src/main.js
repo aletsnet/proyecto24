@@ -45,9 +45,7 @@ window.sqlite = sqlite;
 window.cdatabase = cdatabase;
 window.cterminal = cterminal;
 window.cinventarios = cinventarios;
-<<<<<<< HEAD
 window.cticket=cticket;
-=======
 window.cusers = cusers;
 window.cload = cload;
 window.cticket = cticket;
@@ -58,7 +56,6 @@ window.cempleados = cempleados;
 
 //Check database connection
 //cdatabase.checkDB();
->>>>>>> origin/dev
 window.cload = cload;
 window.cusers = cusers;
 window.ccategorias = ccategorias;
