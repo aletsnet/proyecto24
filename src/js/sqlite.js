@@ -1,6 +1,7 @@
 // Módulo para manejar operaciones de SQLite con Tauri
 import Database from "@tauri-apps/plugin-sql";
 import schema from "./base.schema.json" assert { type: "json" };
+import dataDefault from "./base.data.json" assert { type: "json" };
 
 let db = null;
 export let model = [];
@@ -24,18 +25,40 @@ export const connectDB = async () => {
 
 // SELECT - Consultar datos
 export const query = async (sql, params = []) => {
-    const database = await connectDB();
-    let data = await database.select(sql, params);
-    await closeDB();
-    return data;
+    try{
+        const database = await connectDB();
+        let data = await database.select(sql, params);
+        await closeDB();
+        return data;
+    } catch (error) {
+        Swal.fire({
+            icon: 'error',
+            title: 'Error al ejecutar la consulta',
+            text: sql + " <br/>" + error.message,
+        });
+        //console.error("Error executing query:", error);
+        throw error;
+    }
 };
 
 // INSERT, UPDATE, DELETE - Ejecutar comandos
 export const execute = async (sql, params = []) => {
-    const database = await connectDB();
-    let result = await database.execute(sql, params);
-    await closeDB();
-    return result;
+    try {
+        const database = await connectDB();
+        let result = await database.execute(sql, params);
+        console.log(result);
+        
+        await closeDB();
+        return result;
+    } catch (error) {
+        Swal.fire({
+            icon: 'error',
+            title: 'Error al ejecutar la consulta',
+            text: sql + '<br/>' + error,
+        });
+        //console.error("Error executing command:", error);
+        throw error;
+    }
 };
 
 // INSERT específico para una tabla
@@ -51,12 +74,18 @@ export const insert = async (table, data) => {
 
 // UPDATE específico para una tabla
 export const update = async (table, data, where, whereParams = []) => {
-    const setClause = Object.keys(data)
+    const dataKeys = Object.keys(data);
+    const setClause = dataKeys
         .map((key, i) => `${key} = $${i + 1}`)
         .join(', ');
-    const values = [...Object.values(data), ...whereParams];
     
-    const sql = `UPDATE ${table} SET ${setClause} WHERE ${where}`;
+    // Convertir los placeholders ? a $n en la clausula WHERE
+    let whereClause = where;
+    let placeholderIndex = dataKeys.length + 1;
+    whereClause = whereClause.replace(/\?/g, () => `$${placeholderIndex++}`);
+    
+    const values = [...Object.values(data), ...whereParams];
+    const sql = `UPDATE ${table} SET ${setClause} WHERE ${whereClause}`;    
     return await execute(sql, values);
 };
 
@@ -135,6 +164,31 @@ export const checkModel = async () => {
     }
 };
 
+const checkDate = async () => {
+    console.log("Valia los datos por defecto");
+    
+    const data = dataDefault;
+    for (let tableData of data) {
+        const tableName = tableData.table;  
+        console.log(tableName);
+        
+        for (let row of tableData.data) {
+            // Verificar si el registro ya existe
+            let whereClause = [];
+            let whereParams = [];
+            for (let key in row) {
+                whereClause.push(`${key} = ?`);
+                whereParams.push(row[key]);
+            }
+            const existingRecords = await query("SELECT * FROM " + tableName + " WHERE " + whereClause.join(' AND '), whereParams);
+            if (existingRecords.length === 0) {
+                // Insertar el registro si no existe
+                await insert(tableName, row);
+            }
+        }
+    }
+}
+
 export default {
     connectDB,
     query,
@@ -142,5 +196,6 @@ export default {
     insert,
     update,
     closeDB,
-    checkModel
+    checkModel,
+    checkDate
 }

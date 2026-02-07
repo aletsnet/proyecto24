@@ -1,86 +1,163 @@
+// src/js/controlls/terminal.js
+
+
+let productos = [];
 let total = 0;
 
-// =========================
-// AGREGAR PRODUCTO
-// =========================
-function agregarProducto() {
-    const input = document.getElementById("producto");
-    const nombre = input.value || "Producto genérico";
-    const precio = 50;
-    const cantidad = 1;
-    const subtotal = precio * cantidad;
+/*    RENDER DE LA VENTA*/
+function renderVenta() {
+    const tbody = document.getElementById("listaProductos");
+    if (!tbody) return;
 
-    total += subtotal;
+    tbody.innerHTML = "";
+    total = 0;
 
-    const fila = `
-        <tr>
-            <td>${nombre}</td>
-            <td>${cantidad}</td>
-            <td>$${precio}</td>
-            <td>$${subtotal}</td>
-        </tr>
-    `;
+    productos.forEach(p => {
+        const subtotal = p.cantidad * p.precio;
+        total += subtotal;
 
-    document.getElementById("listaProductos").innerHTML += fila;
-    document.getElementById("total").textContent = total.toFixed(2);
-    input.value = "";
+        tbody.innerHTML += `
+            <tr>
+                <td>${p.nombre}</td>
+                <td>${p.cantidad}</td>
+                <td>$${p.precio.toFixed(2)}</td>
+                <td>$${subtotal.toFixed(2)}</td>
+            </tr>
+        `;
+    });
+
+    const totalEl = document.getElementById("total");
+    if (totalEl) totalEl.textContent = total.toFixed(2);
 }
 
-// =========================
-// COBROS
-// =========================
+/*    BUSCAR PRODUCTO EN SQLITE */
+async function buscarProducto(codigo) {
+    const sql = `
+        SELECT id, nombre, precio_unidad
+        FROM productos
+        WHERE codigo_barras = ? OR codigo_sku = ?
+        LIMIT 1
+    `;
+
+    const result = await window.sqlite.query(sql, [codigo, codigo]);
+
+    return (Array.isArray(result) && result.length > 0) ? result[0] : null;
+}
+
+
+/*    AGREGAR PRODUCTO */
+async function agregarProductoPorCodigo(codigo) {
+    if (!codigo) return;
+
+    const producto = await buscarProducto(codigo);
+
+    if (!producto) {
+        Swal.fire({
+            icon: 'error',
+            title: 'Producto no encontrado',
+            text: 'El artículo no existe en la base de datos'
+        });
+        return;
+    }
+
+    const existente = productos.find(p => p.id === producto.id);
+
+    if (existente) {
+        existente.cantidad++;
+    } else {
+        productos.push({
+            id: producto.id,
+            nombre: producto.nombre,
+            precio: Number(producto.precio_unidad),
+            cantidad: 1
+        });
+    }
+
+    renderVenta();
+}
+
+
+/*    COBRO */
+async function cobrar(metodoPagoId) {
+    if (productos.length === 0) {
+        Swal.fire('Sin productos', 'Agrega productos antes de cobrar', 'warning');
+        return;
+    }
+
+    const corteId = localStorage.getItem("corte_activo");
+
+    if (!corteId) {
+        Swal.fire('Caja cerrada', 'No hay un corte activo', 'error');
+        return;
+    }
+
+    // 1️⃣ Insertar venta
+    const venta = await insert("ventas", {
+        total: total,
+        unidades: productos.reduce((s, p) => s + p.cantidad, 0),
+        cliente: 1,
+        corte: corteId,
+        sucursal: 1,
+        tipo: metodoPagoId, // ID de catalogos_detalles
+        status: 1,
+        user: 1
+    });
+
+    const ventaId = venta.last_insert_id;
+
+    // 2️⃣ Insertar detalle
+    for (const p of productos) {
+        await insert("ventas_detalles", {
+            cantidad: p.cantidad,
+            precio: p.precio,
+            precio_vendido: p.precio,
+            venta: ventaId,
+            inventario: p.id
+        });
+    }
+
+    productos = [];
+    renderVenta();
+
+    Swal.fire('Venta registrada', 'Cobro exitoso', 'success');
+}
+
 function cobrarEfectivo() {
-    alert("Cobro en efectivo seleccionado");
+    cobrar(1); // ID EFECTIVO
 }
 
 function cobrarTarjeta() {
-    alert("Cobro con tarjeta seleccionado");
+    cobrar(2); // ID TARJETA
 }
 
 function cobrarTransferencia() {
-    alert("Cobro por transferencia seleccionado");
+    cobrar(3); // ID TRANSFERENCIA
 }
 
-// =========================
-// MENÚ INFERIOR
-// =========================
-function consultarPrecio() {
-    alert("Consultar precio");
-}
 
-function mostrarMenu() {
-    alert("Mostrar menú de productos");
-}
 
-function cambiarUsuario() {
-    alert("Cambiar usuario");
-}
-
+/*    OTROS */
 function eliminarArticulo() {
-    alert("Eliminar último artículo");
+    productos.pop();
+    renderVenta();
 }
 
 function cancelarVenta() {
-    if (confirm("¿Seguro que deseas cancelar la venta?")) {
-        document.getElementById("listaProductos").innerHTML = "";
-        total = 0;
-        document.getElementById("total").textContent = "0.00";
-    }
-}
-const loadView = async () => {
-    const lquery = document.getElementById('lquery');
-    lquery.value = "SELECT * FROM sqlite_master WHERE type='table' AND name NOT LIKE 'sqlite_%';"
-    queryLoad();
+    productos = [];
+    renderVenta();
 }
 
+function loadView() {
+    renderVenta();
+}
+
+/*    EXPORT DEFAULT (OBLIGATORIO) */
 export default {
-    agregarProducto,
+    agregarProductoPorCodigo,
+    cobrar,
     cobrarEfectivo,
     cobrarTarjeta,
     cobrarTransferencia,
-    consultarPrecio,
-    mostrarMenu,
-    cambiarUsuario,
     eliminarArticulo,
     cancelarVenta,
     loadView

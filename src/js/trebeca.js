@@ -28,6 +28,8 @@ const trebeca = (config, data) => {
 
 
     const create_input = (td, field) => {
+        const columns = config.table.cols;
+        const col = columns.filter(item => item.field === td.dataset.field)[0];
         if(typeof td.dataset === "object" && typeof td.dataset.type === "string" && td.dataset.type !== "button"){
             switch (td.dataset.type) {
                 case 'checkbox':
@@ -44,7 +46,7 @@ const trebeca = (config, data) => {
                     input.dataset.field = td.dataset.field || '';
                     input.placeholder = field.placeholder || field.label || '';
                     input.type = td.dataset.type || 'text';
-                    input.value = unformatter(td.textContent || '', td.dataset.type) || '';
+                    input.value = unformatter(td.textContent || '', col) || '';
                     input.className = 'form-control form-control-sm';
                     if(td.dataset.field === "id" && input.value === ""){
                         input.value = Date.now().toString();
@@ -65,7 +67,7 @@ const trebeca = (config, data) => {
                     textarea.dataset.id = td.dataset.id || Date.now().toString();
                     textarea.dataset.field = td.dataset.field || '';
                     textarea.placeholder = field.placeholder || field.label || '';
-                    textarea.value = unformatter(td.textContent || '', td.dataset.type) || '';
+                    textarea.value = unformatter(td.textContent || '', col) || '';
                     textarea.className = 'form-control form-control-sm';
                     if(typeof field.valuedefault !== "undefined" && (textarea.value === "" || textarea.value === null)){
                         textarea.value = field.valuedefault || '';
@@ -88,7 +90,7 @@ const trebeca = (config, data) => {
                         opt.textContent = option.label || option.value || option || '';
                         select.appendChild(opt);
                     }
-                    select.value = unformatter(td.textContent || '', td.dataset.type) || '';
+                    select.value = unformatter(td.textContent || '', col) || '';
                     select.className = 'form-select form-select-sm';
                     if(typeof field.valuedefault !== "undefined" && (select.value === "" || select.value === null)){
                         select.value = field.valuedefault || '';
@@ -117,7 +119,7 @@ const trebeca = (config, data) => {
                         new_img.dataset.id = td.dataset.id || Date.now().toString();
                         new_img.dataset.field = td.dataset.field || '';
                         new_img.alt = field.label || 'Imagen';
-                        new_img.src = unformatter(td.textContent || '', td.dataset.type) || field.valuedefault || '';
+                        new_img.src = unformatter(td.textContent || '', col) || field.valuedefault || '';
                         if(typeof field.valuedefault !== "undefined" && (new_img.src === "" || new_img.src === null)){
                             new_img.src = field.valuedefault || '';
                         }
@@ -146,7 +148,7 @@ const trebeca = (config, data) => {
                     input_.dataset.field = td.dataset.field || '';
                     input_.placeholder = field.placeholder || field.label || '';
                     input_.type = td.dataset.type || 'text';
-                    input_.value = unformatter(td.textContent || '', td.dataset.type) || '';
+                    input_.value = unformatter(td.textContent || '', col) || '';
                     input_.className = 'form-control form-control-sm';
                     td.innerHTML = '';
                     td.appendChild(input_);
@@ -271,7 +273,7 @@ const trebeca = (config, data) => {
                             }
                             break;
                         default:
-                            td.innerHTML = formatter(value, col.type) || '';
+                            td.innerHTML = formatter(value, col) || '';
                             td.dataset.id = row.id || '';
                             td.dataset.field = col.field;
                             break;
@@ -316,6 +318,7 @@ const trebeca = (config, data) => {
             const col = columns[key];
             const td = document.createElement('td');
             td.dataset.type = col.type;
+            td.dataset.field = col.field;
             newRow.appendChild(td);
             if(col.type === 'button'){
                 const buttons = config.buttons || {};
@@ -377,7 +380,7 @@ const trebeca = (config, data) => {
                 }
             }else{
                 td.dataset.id = "_new";
-                td.innerHTML = formatter(col.valuedefault || '', col.type) || '';
+                td.innerHTML = formatter(col.valuedefault || '', col) || '';
                 //td.dataset.id = row.id || '';
                 td.dataset.field = col.field;
             }
@@ -415,20 +418,22 @@ const trebeca = (config, data) => {
         const td_bts = event.target.closest('td');
         const tr_row = td_bts.closest('tr');
         const columns = config.table.cols;
+        let _item = {};
         if(tr_row.dataset.id === "_new"){
             const item = show_item(tr_row);
             data.push(item);
+            _item = item;
         }else{
             const item = show_item(tr_row);
             const index = data.findIndex(i => i.id === item.id);
             if(index !== -1){
                 data[index] = item;
             }
-            
+            _item = item;
         }
         
         if(typeof config.save === "function"){
-            config.save(event);
+            config.save(event, _item);
         }
         //show_data();
         totalCount();
@@ -583,17 +588,21 @@ const trebeca = (config, data) => {
                     case 'phone':
                     case 'email':
                     case 'money':
-                    case 'select':
                     case 'date':
                         valor = input ? input.value || "" : td.textContent || "";
                         item[td.dataset.field] = valor;
-                        td.textContent = formatter(valor, col.type) || '';
+                        td.textContent = formatter(valor, col) || '';
+                        break;
+                    case 'select':
+                        valor = input ? input.value || "" : td.textContent || "";
+                        item[td.dataset.field] = valor;
+                        td.textContent = formatter(valor, col) || '';
                         break;
                     case 'image':
                         const img = td.querySelector('img');
                         valor = img ? img.src || "" : td.textContent || "";
                         item[td.dataset.field] = valor;
-                        td.innerHTML = formatter(valor, col.type) || '';
+                        td.innerHTML = formatter(valor, col) || '';
                         break;
                     default:
                         valor = td.textContent || "";
@@ -601,10 +610,10 @@ const trebeca = (config, data) => {
                             valor = 0;
                             valor = operators(item, col.operator, col.reference);
                             item[td.dataset.field] = valor;
-                            td.textContent = formatter(valor, col.type) || '';
+                            td.textContent = formatter(valor, col) || '';
                         }
                         item[td.dataset.field] = valor;
-                        td.textContent = formatter(valor, col.type) || '';
+                        td.textContent = formatter(valor, col) || '';
                         break;
                 }
             }else{
@@ -771,7 +780,8 @@ const trebeca = (config, data) => {
         return result;
     }
 
-    const formatter = (value, type) => {
+    const formatter = (value, col) => {
+        const type = col.type || 'text';
         let result = value;
         switch (type) {
             case 'money':
@@ -789,6 +799,22 @@ const trebeca = (config, data) => {
             case 'image':
                 result = `<img src="${value}" alt="Imagen" style="width:50px; height:50px; object-fit:cover;">`;
                 break;
+            case 'select':
+                const option = col.options.find(opt => {
+                    if(typeof opt === "object"){
+                        return opt.value == value;
+                    }else{
+                        return opt == value;
+                    }
+                });
+                if(typeof option === "object"){
+                    result = option.label || option.value || value;
+                }else if(typeof option === "string"){
+                    result = option;
+                }else{
+                    result = value;
+                }
+                break;
             default:
                 result = value;
                 break;
@@ -796,8 +822,9 @@ const trebeca = (config, data) => {
         return result;
     }
 
-    const unformatter = (value, type) => {
+    const unformatter = (value, col) => {
         let result = value;
+        let type = col.type || 'text';
         switch (type) {
             case 'money':
                 // Elimina símbolo de moneda y separadores

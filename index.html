@@ -3,13 +3,13 @@
 	<head>
 		<meta charset="UTF-8" />
 		<link rel="stylesheet" href="/src/css/bootstrap.min.css" />
-		<link rel="stylesheet" href="/src/css/ticket.css" />
+		<!-- <link rel="stylesheet" href="/src/css/ticket.css" /> -->
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<title>Sistema de Punto de Venta - Login</title>
 		
 		<script type="module" src="/src/main.js" defer></script>
 	</head>
-	<body>
+	<body style="width: 100%; height: 100vh; display: flex; flex-direction: column;">
 		<nav class="navbar navbar-expand-lg bg-light" data-bs-theme="light">
 			<div class="container-fluid">
 			<a class="navbar-brand" href="#">Proyecto24</a>
@@ -47,11 +47,15 @@
 						Inventario
 					</a>
 					<div class="dropdown-menu">
+						<a class="dropdown-item" href="javascript:void(0)" onclick="window.renderView('app','view/inventario/productos' , () => { cproductos.loadView(); })">
+							<i class="fa fa-plus-circle"></i>
+							Productos
+						</a>
 						<a class="dropdown-item" href="javascript:void(0)" onclick="window.renderView('app','view/inventario/search', () => { cinventarios.loadView(); })">
 							<i class="fa fa-boxes"></i>
 							Inventarios
 						</a>
-						<a class="dropdown-item" href="javascript:void(0)" onclick="window.renderView('app','view/inventario/categorias')">
+						<a class="dropdown-item" href="javascript:void(0)" onclick="window.renderView('app','view/inventario/categorias', () => { ccategorias.loadView(); })">
 							<i class="fa fa-list"></i>
 							Categorias
 						</a>
@@ -62,7 +66,7 @@
 						Cortes
 					</a>
 					<div class="dropdown-menu">
-						<a class="dropdown-item" href="javascript:void(0)" onclick="window.renderView('app','view/corte/corte')">
+						<a class="dropdown-item" href="javascript:void(0)" onclick="window.renderView('app','view/cortes/corte')">
 							<i class=""></i>
 							Realizar Corte
 						</a>
@@ -86,9 +90,9 @@
 							<i class="fas fa-cogs"></i>
 							Sistema
 						</a>
-						<a class="dropdown-item"  href="javascript:void(0)" onclick="window.renderView('app','view/system/users')">
+						<a class="dropdown-item"  href="javascript:void(0)" onclick="window.renderView('app','view/usuarios/empleados', () => { cempleados.loadView(); })">
 							<i class="fas fa-user"></i>
-							Usuario
+							Usuarios
 						</a>
 						<a class="dropdown-item" href="javascript:void(0)" onclick="window.renderView('app','view/system/database', () => { cdatabase.loadView(); })">
 							<i class="fas fa-database"></i>
@@ -100,31 +104,30 @@
 			</div>
 			</div>
 		</nav>
-		<div class="container m-3" id="app">
+		<div class="container m-3" id="app" style="flex-grow: 1;">
 			No cargo en view
 		</div>
 
 		<!-- Modal standard-->
-		<div class="modal fade" id="standardModal" tabindex="-1" aria-labelledby="standardModalLabel" aria-hidden="true">
+		<div class="modal fade" id="standardModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="standardModalLabel" aria-hidden="true">
 			<div class="modal-dialog modal-lg">
 				<div class="modal-content">
 					<div class="modal-header" id="modalTitulo">
-						<h5 class="modal-title" id="standardModalLabel">Modal title</h5>
-						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+						<h5 class="modal-title" id="standardModalLabel">Proyecto 24</h5>
+						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" style="display: none;"></button>
 					</div>
 					<div class="modal-body" id="modalCuerpo">
 						...
 					</div>
 					<div class="modal-footer" id="modalPie">
-						<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-						<button type="button" class="btn btn-primary">Guardar cambios</button>
+						&nbsp;
 					</div>
 				</div>
 			</div>
 		</div>
 
-		<footer class="bg-light text-center text-lg-start fixed-bottom" data-bs-theme="light">
-			<div class="text-center p-3">
+		<footer class="bg-light text-center text-lg-start" data-bs-theme="light">
+			<div class="text-center p-1">
 				© 2026 Copyright:
 				<a class="text-dark" href="https://proyecto24.com/">Proyecto24.com</a>
 			</div>

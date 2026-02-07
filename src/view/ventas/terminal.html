@@ -145,8 +145,25 @@
         <h3>Artículos</h3>
 
         <div class="table-primary entrada">
-            <input type="text" id="producto" placeholder="Código o nombre del producto">
-            <button onclick="agregarProducto()">Agregar producto</button>
+            <input 
+                type="text"
+                id="producto"
+                placeholder="Código o nombre del producto"
+                onkeydown="if(event.key==='Enter'){
+                 cterminal.agregarProductoPorCodigo(this.value);
+                    this.value='';
+                        }"
+                />
+
+                        <button onclick="
+                        cterminal.agregarProductoPorCodigo(
+                        document.getElementById('producto').value
+                             );
+                        document.getElementById('producto').value='';">
+                         Agregar producto
+                        </button>
+
+
         </div>
 
         <table class="table table-bordered">
