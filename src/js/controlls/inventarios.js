@@ -1,4 +1,6 @@
 import Swal from "sweetalert2";
+import { invoke } from "@tauri-apps/api/core";
+import * as XLSX from 'xlsx';
 
 let productos = [];
 let categorias = [];
@@ -102,6 +104,105 @@ let data = [];
             }
         }
 
+        const importar = async (event) => {
+            const input = event.target || null;
+            const file = input.files[0] || null;
+            try{
+            if(file){
+                const reader = new FileReader();
+                reader.onload = async (e) => {
+                    let lines = [];
+                    if (file.name.endsWith('.xlsx') || file.type.includes('spreadsheet')) {
+                        // Procesar Excel
+                        const data = new Uint8Array(e.target.result);
+                        const workbook = XLSX.read(data, { type: 'array' });
+                        const sheetName = workbook.SheetNames[0];
+                        const worksheet = workbook.Sheets[sheetName];
+                        const json = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
+                        lines = json.slice(1); // Saltar header si hay
+                        
+                    } else {
+                        // Procesar TXT/CSV
+                        const text = e.target.result || '';
+                        lines = text.split('\n').map(line => line.split(','));
+                    }
+
+                    for(const cols of lines){
+                        if(cols.length >= 5){
+                            let codigo_barras = (cols[0] || '').trim();
+                            let nombre = (cols[1] || '').trim();
+                            let categoria = (cols[2] || '').trim();                            
+                            let precio_unidad = cols[3] || 0;
+                            let stock = cols[4] || 0;
+                            
+                            if (codigo_barras && nombre) {
+                                let row_productio = await sqlite.query(`SELECT * FROM productos WHERE codigo_barras = ? AND deleted_at IS NULL`,  [codigo_barras]);
+                                let producto_id = 0;
+                                let _item = {};
+                                _item['nombre'] = nombre;
+                                _item['codigo_barras'] = codigo_barras;
+                                _item['categoria'] = categoria;
+                                _item['precio_unidad'] = precio_unidad;
+                                _item['status'] = 101; //Activo
+                                _item['user'] = localStorage.getItem('user_id'); //usuario activo
+                                if(row_productio.length > 0) {
+                                    _item['updated_at'] = Date.now();
+                                    await sqlite.update('productos', _item, 'id = ?', [row_productio[0].id]);
+                                    producto_id = row_productio[0].id;
+                                }else{
+                                    _item['created_at'] = Date.now()
+                                    let r = await sqlite.insert('productos', _item);
+                                    producto_id = r.lastInsertId ?? 0;
+                                }
+                                let row_inventario = {};
+                                row_inventario['producto'] = producto_id;
+                                row_inventario['stock'] = stock;
+                                row_inventario['precio_unidad'] = precio_unidad;
+                                row_inventario['sucursal'] = 1;
+                                row_inventario['status'] = 101; //Activo
+                                row_inventario['user'] = localStorage.getItem('user_id'); //usuario activo
+                                let row_search = await sqlite.query(`SELECT * FROM inventarios WHERE producto = ? AND sucursal = ? AND deleted_at IS NULL`,  [producto_id, 1]);
+                                if(row_search.length > 0) {
+                                    row_inventario['updated_at'] = Date.now();
+                                    await sqlite.update('inventarios', row_inventario, 'id = ?', [row_search[0].id]);
+                                }else{
+                                    row_inventario['created_at'] = Date.now()
+                                    await sqlite.insert('inventarios', row_inventario);
+                                }
+                            }
+                        }
+                    }
+                    Swal.fire({
+                        title: 'Importación completa',
+                        text: 'Los productos han sido importados correctamente.',
+                        icon: 'success',
+                        confirmButtonText: 'Cerrar'
+                    });
+                    setTimeout(() => {
+                        cinventarios.loadView();
+                        Swal.close();
+                    }, 800);
+                };
+                if (file.name.endsWith('.xlsx') || file.type.includes('spreadsheet')) {
+                    reader.readAsArrayBuffer(file);
+                } else {
+                    reader.readAsText(file);
+                }
+            }
+            }catch(e){
+                console.error(e);
+                Swal.fire("Error", "Hubo un problema al importar el archivo.", "error");
+            }
+        }
+
+        const selectFile = () => {
+            const input = document.createElement('input');
+            input.type = 'file';
+            input.accept = '.csv, text/csv, xls, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel';
+            input.onchange = importar;
+            input.click();
+        }
+
         const loadView = async () => {
             productos = await sqlite.query("SELECT * FROM productos WHERE deleted_at IS NULL");
             categorias = await sqlite.query("SELECT id value, categoria label FROM categorias WHERE deleted_at IS NULL Order BY padre, categoria");
@@ -149,4 +250,13 @@ let data = [];
             window.trebeca(config, data);            
         }
 
-export default {loadView};
+        const abrirFormato = async () => {
+            try {
+                await invoke("open_formato");
+            } catch (error) {
+                console.error("Error al abrir el archivo:", error);
+                Swal.fire("Error", "No se pudo abrir el archivo.", "error");
+            }
+        }
+
+export default {loadView, selectFile, abrirFormato };

@@ -27,6 +27,16 @@
                 "id": 1,
                 "nombre": "estatus",
                 "orden": 1
+            },
+            {
+                "id": 2,
+                "nombre": "tipos_venta",
+                "orden": 2
+            },
+            {
+                "id": 3,
+                "nombre": "status_venta",
+                "orden": 3
             }
         ]
     },
@@ -46,6 +56,41 @@
                 "nombre": "Inactivo",
                 "valor": "0",
                 "orden": 2
+            },
+            {
+                "id": 201,
+                "catalogo": 2,
+                "nombre": "Efectivo",
+                "valor": "efectivo",
+                "orden": 1
+            },
+            {
+                "id": 202,
+                "catalogo": 2,
+                "nombre": "Tarjeta",
+                "valor": "tarjeta",
+                "orden": 2
+            },
+            {
+                "id": 203,
+                "catalogo": 2,
+                "nombre": "Transferencia",
+                "valor": "transferencia",
+                "orden": 3
+            },
+            {
+                "id": 301,
+                "catalogo": 3,
+                "nombre": "Activa",
+                "valor": "activa",
+                "orden": 1
+            },
+            {
+                "id": 302,
+                "catalogo": 3,
+                "nombre": "Cancelada",
+                "valor": "cancelada",
+                "orden": 2
             }
         ]
     },
@@ -57,6 +102,19 @@
                 "nombre": "Local",
                 "direccion": "",
                 "telefono": "",
+                "status": 101
+            }
+        ]
+    },
+    {
+        "table": "clientes",
+        "data": [
+            {
+                "id": 1,
+                "nombre": "Cliente General",
+                "telefono": "",
+                "email": "",
+                "direccion": "",
                 "status": 101
             }
         ]

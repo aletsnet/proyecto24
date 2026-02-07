@@ -1,4 +1,3 @@
-import sqlite from "../../db/sqlite";
 async function cargarCorte() {
     const corteId = localStorage.getItem("corte_activo");
     if (!corteId) return;
@@ -89,7 +88,94 @@ async function cerrarCaja() {
     Swal.fire('Caja cerrada', 'Corte finalizado correctamente', 'success');
 }
 
+const abrirCorte = async () => {
+    const corteActivo = localStorage.getItem("corte_activo");
+    if (corteActivo) {
+        Swal.fire('Caja ya abierta', 'Ya hay un corte activo', 'warning');
+        return;
+    }
+
+    const result = await sqlite.insert("cortes", {
+        sucursal: 1,
+        user: localStorage.getItem('user_id'),
+        fecha_inicio: new Date().toISOString(),
+        total_inicial: 0.00,
+        total_ventas: 0.00,
+        status: 101
+    });
+
+    localStorage.setItem("corte_activo", result.lastInsertId);
+    Swal.fire('Caja abierta', 'Corte iniciado correctamente', 'success');
+    loadView();
+}
+
+const cerrarCorte = async () => {
+    const corteId = localStorage.getItem("corte_activo");
+    if (!corteId) {
+        Swal.fire('Caja cerrada', 'No hay corte activo', 'warning');
+        return;
+    }
+
+    // Calcular totales
+    const totales = await sqlite.query(`
+        SELECT 
+            SUM(CASE WHEN v.tipo = 201 THEN v.total ELSE 0 END) as efectivo,
+            SUM(CASE WHEN v.tipo = 202 THEN v.total ELSE 0 END) as tarjeta,
+            SUM(CASE WHEN v.tipo = 203 THEN v.total ELSE 0 END) as trasferencia,
+            SUM(v.total) as total
+        FROM ventas v WHERE v.corte = ?
+    `, [corteId]);
+
+    await sqlite.update("cortes", {
+        fecha_cierre: new Date().toISOString(),
+        total_ventas: totales[0].total || 0,
+        status: 102
+    }, "id = ?", [corteId]);
+
+    localStorage.removeItem("corte_activo");
+    Swal.fire('Caja cerrada', 'Corte finalizado correctamente', 'success');
+    loadView();
+}
+
+const loadView = async () => {
+    const data = await sqlite.query("SELECT * FROM cortes ORDER BY id DESC");
+
+    const config = {
+        search: {
+            value: '',
+            fields: ['fechainicio', 'fechafinal', 'total_ventas'],
+            buttons: [
+                { label: '<i class="fas fa-search"></i> Buscar', class: 'btn btn-primary btn-sm me-1', function: (event) => { console.log('Buscar'); } },
+                { label: '<i class="fas fa-eraser"></i> Limpiar', class: 'btn btn-secondary btn-sm me-1', function: (event) => { console.log('Limpiar búsqueda'); } }
+            ]
+        },
+        table: {
+            cols: [
+                {label: 'Fecha Apertura', field: 'fechainicio ', type: 'date'},
+                {label: 'Fecha Cierre', field: 'fechafinal', type: 'date'},
+                {label: 'Ventas', field: 'ventas', type: 'money'},
+                {label: 'Apertura', field: 'inicio', type: 'money'},
+                {label: 'En Caja', field: 'caja', type: 'money'},
+                {label: 'Diferencia', field: 'diferencia', type: 'money'},
+                
+            ],
+            footer: {
+                label: 'Total de registros:',
+                field: 'count',
+                type: 'text'
+            }
+        },
+            buttons: [],
+        tableClass: 'tcortes'
+    };
+
+    window.trebeca(config, data);
+}
+
 export default {
     cargarCorte,
     cerrarCaja,
+    abrirCorte,
+    cerrarCorte,
+    loadView
 };
