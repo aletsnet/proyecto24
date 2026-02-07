@@ -1,5 +1,7 @@
 // src/js/controlls/terminal.js
 
+import sqlite from "../sqlite";
+
 
 let productos = [];
 let total = 0;
@@ -33,7 +35,7 @@ function renderVenta() {
 /*    BUSCAR PRODUCTO EN SQLITE */
 async function buscarProducto(codigo) {
     const sql = `
-        SELECT p.id, p.nombre, i.precio_venta as precio_unidad, i.id as inventario_id, i.stock
+        SELECT p.id, p.nombre, i.precio_unidad, i.id as inventario_id, i.stock
         FROM productos p
         JOIN inventarios i ON p.id = i.producto
         WHERE (p.codigo_barras = ? OR p.codigo_sku = ?) AND i.sucursal = 1 AND i.stock > 0 AND i.deleted_at IS NULL
@@ -102,22 +104,22 @@ async function cobrar(metodoPagoId) {
     }
 
     // 1️⃣ Insertar venta
-    const venta = await insert("ventas", {
+    const venta = await sqlite.insert("ventas", {
         total: total,
         unidades: productos.reduce((s, p) => s + p.cantidad, 0),
         cliente: 1,
         corte: corteId,
         sucursal: 1,
         tipo: metodoPagoId, // ID de catalogos_detalles
-        status: 1,
-        user: 1
+        status: 101,
+        user: localStorage.getItem('user_id')
     });
 
-    const ventaId = venta.last_insert_id;
+    const ventaId = venta.lastInsertId; // ID de la venta recién creada
 
     // 2️⃣ Insertar detalle
     for (const p of productos) {
-        await insert("ventas_detalles", {
+        await sqlite.insert("ventas_detalles", {
             cantidad: p.cantidad,
             precio: p.precio,
             precio_vendido: p.precio,
@@ -128,10 +130,10 @@ async function cobrar(metodoPagoId) {
 
     // 3️⃣ Actualizar inventario y movimientos
     for (const p of productos) {
-        const currentStock = await query("SELECT stock FROM inventarios WHERE id = ?", [p.inventario_id]);
+        const currentStock = await sqlite.query("SELECT stock FROM inventarios WHERE id = ?", [p.inventario_id]);
         const newStock = currentStock[0].stock - p.cantidad;
-        await update("inventarios", { stock: newStock }, "id = ?", [p.inventario_id]);
-
+        await sqliteupdate("inventarios", { stock: newStock }, "id = ?", [p.inventario_id]);
+/*
         await insert("inventarios_movimientos", {
             inventario: p.inventario_id,
             tipo: "salida",
@@ -139,7 +141,7 @@ async function cobrar(metodoPagoId) {
             precio: p.precio,
             user: 1,
             corte: corteId
-        });
+        });*/
     }
 
     productos = [];
@@ -149,15 +151,15 @@ async function cobrar(metodoPagoId) {
 }
 
 function cobrarEfectivo() {
-    cobrar(1); // ID EFECTIVO
+    cobrar(201); // ID EFECTIVO
 }
 
 function cobrarTarjeta() {
-    cobrar(2); // ID TARJETA
+    cobrar(202); // ID TARJETA
 }
 
 function cobrarTransferencia() {
-    cobrar(3); // ID TRANSFERENCIA
+    cobrar(203); // ID TRANSFERENCIA
 }
 
 
