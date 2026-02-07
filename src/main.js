@@ -8,6 +8,7 @@ import '@fortawesome/fontawesome-free/css/all.css'
 import '../src/css/ticket.css';
 
 //controlles
+import cempleados from './js/controlls/empleados.js';
 import cdatabase from './js/controlls/database.js';
 import cterminal from './js/controlls/terminal.js';
 import cload from './js/controlls/load.js';
@@ -15,8 +16,9 @@ import cusers from './js/controlls/users.js';
 import cinventarios from './js/controlls/inventarios.js';
 import ccategorias from './js/controlls/categorias.js';
 import clogin from './js/controlls/login.js';
+import cticket from './js/controlls/ticket.js';
+import cproductos from './js/controlls/productos.js';
 
-import cticket from './js/controlls/ticket.js'
  // Exponer funciones para botones HTML
     window.undo = () => cticket.undo();
     window.redo = () => cticket.redo();
@@ -43,16 +45,29 @@ window.sqlite = sqlite;
 window.cdatabase = cdatabase;
 window.cterminal = cterminal;
 window.cinventarios = cinventarios;
+<<<<<<< HEAD
 window.cticket=cticket;
+=======
+window.cusers = cusers;
+window.cload = cload;
+window.cticket = cticket;
+window.cterminal = cterminal;
+window.api = api;
+window.cempleados = cempleados;
+
+
+//Check database connection
+//cdatabase.checkDB();
+>>>>>>> origin/dev
 window.cload = cload;
 window.cusers = cusers;
 window.ccategorias = ccategorias;
 window.clogin = clogin;
-
-window.cterminal = cterminal;
+window.cticket = cticket;
+window.cproductos = cproductos;
 window.api = api;
-//Check database connection
-//cdatabase.checkDB();
+//Checa si hay un usuario registrado
+await cload.checkRegister();
 
 
 // Cargar la vista inicial

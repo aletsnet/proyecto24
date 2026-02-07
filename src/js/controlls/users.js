@@ -96,6 +96,8 @@ const create = async (formId) => {
         //crear en el storage local datos del usuario
         let user = await sqlite.query("SELECT id FROM users WHERE email = ?", [data.email]);
         id_user = user[0].id;
+        localStorage.removeItem('user_id');
+        localStorage.removeItem('name');
         localStorage.setItem("id_user", id_user);
         localStorage.setItem("name", data.username);
         localStorage.setItem("email", data.email);

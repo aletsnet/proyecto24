@@ -45,7 +45,9 @@ export const query = async (sql, params = []) => {
 export const execute = async (sql, params = []) => {
     try {
         const database = await connectDB();
-        let result = await database.execute(sql, params);        
+        let result = await database.execute(sql, params);
+        console.log(result);
+        
         await closeDB();
         return result;
     } catch (error) {
@@ -72,11 +74,18 @@ export const insert = async (table, data) => {
 
 // UPDATE específico para una tabla
 export const update = async (table, data, where, whereParams = []) => {
-    const setClause = Object.keys(data)
+    const dataKeys = Object.keys(data);
+    const setClause = dataKeys
         .map((key, i) => `${key} = $${i + 1}`)
         .join(', ');
+    
+    // Convertir los placeholders ? a $n en la clausula WHERE
+    let whereClause = where;
+    let placeholderIndex = dataKeys.length + 1;
+    whereClause = whereClause.replace(/\?/g, () => `$${placeholderIndex++}`);
+    
     const values = [...Object.values(data), ...whereParams];
-    const sql = `UPDATE ${table} SET ${setClause} WHERE ${where}`;
+    const sql = `UPDATE ${table} SET ${setClause} WHERE ${whereClause}`;    
     return await execute(sql, values);
 };
 
