@@ -10,8 +10,7 @@ let data = [
 let config = {
     search: {
         value: '',
-        fields: ["name", "email"],
-        buttons: 
+        fields: ["name", "email"]
     },
     table: {
         cols: [
